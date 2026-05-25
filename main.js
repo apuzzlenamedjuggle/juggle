@@ -16,10 +16,10 @@ const FEEDBACK_ENDPOINT = 'https://formspree.io/f/xjgzagya';
 const PUBLIC_GAME_URL = 'https://apuzzlenamedjuggle.github.io/juggle';
 
 // ─── Daily color palette ──────────────────────────────────────────────────────
-// Order maps to J U G G L E: purple, blue, green, yellow, coral, pink.
-// E (index 5) = pink = accent on day 0 (2026-05-25).
-const PALETTE      = ['#C4B0E8','#A4C0E8','#A8D4B4','#F0DC8C','#F7B090','#F4A0BC'];
-const PALETTE_DARK = ['#7B45C0','#3A74C0','#3A8C5A','#B08000','#D05A1A','#C84B70'];
+// Order maps to J U G G L E: pink, blue, orange, purple, yellow, green.
+// E (index 5) = green = accent on day 0 (2026-05-25).
+const PALETTE      = ['#F4A0BC','#A4C0E8','#F7B090','#C4B0E8','#F0DC8C','#A8D4B4'];
+const PALETTE_DARK = ['#C84B70','#3A74C0','#D05A1A','#7B45C0','#B08000','#3A8C5A'];
 
 // ─── Achievements ─────────────────────────────────────────────────────────────
 // hidden: true means the unlock condition is not shown to the player when locked.
@@ -65,7 +65,7 @@ function todayDisplayDate() {
 
 // ─── Color theme ──────────────────────────────────────────────────────────────
 
-// Calibrated so 2026-05-25 → offset 0 (E = pink accent).
+// Calibrated so 2026-05-25 → offset 0 (E = green accent).
 function getDayOffset() {
   return (Math.floor(Date.parse(todayKey()) / 86400000) + 5) % 6;
 }
@@ -101,7 +101,7 @@ function applyDailyTheme() {
 }
 
 function applyFavicon(color) {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="none" stroke="${color}" stroke-width="4"/></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="13" r="9" fill="none" stroke="${color}" stroke-width="3.5"/><rect x="4" y="27" width="24" height="3" rx="1.5" fill="#111"/></svg>`;
   const url  = 'data:image/svg+xml,' + encodeURIComponent(svg);
   const link = document.getElementById('favicon') || document.querySelector("link[rel~='icon']");
   if (link) link.href = url;
@@ -218,17 +218,20 @@ const HOW_ANIMATION = {
 // ─── State ────────────────────────────────────────────────────────────────────
 
 const S = {
-  puzzle:       null,
-  words:        [],
-  final:        null,
-  activeWord:   0,
-  cursor:       0,
-  hardMode:     false,
-  gameStarted:  false,
-  wrongGuesses: 0,
+  puzzle:          null,
+  words:           [],
+  final:           null,
+  activeWord:      0,
+  cursor:          0,
+  hardMode:        false,
+  gameStarted:     false,
+  wrongGuesses:    0,
+  invalidAttempts: 0,
+  hintsUsed:       0,
 };
 
-let confettiFired = false;
+let confettiFired   = false;
+let completionCache = null;
 
 // ─── Persistence ──────────────────────────────────────────────────────────────
 
@@ -264,9 +267,11 @@ function saveState() {
     },
     activeWord: S.activeWord,
     cursor:     S.cursor,
-    hardMode:       S.hardMode,
-    wrongGuesses:   S.wrongGuesses,
-    gameStarted:    S.gameStarted,
+    hardMode:        S.hardMode,
+    wrongGuesses:    S.wrongGuesses,
+    invalidAttempts: S.invalidAttempts,
+    hintsUsed:       S.hintsUsed,
+    gameStarted:     S.gameStarted,
     timerMs:        Timer._current(),
   };
   try {
@@ -291,9 +296,11 @@ function loadState() {
     S.final.solved       = d.final.solved;
     S.activeWord = d.activeWord;
     S.cursor     = d.cursor;
-    S.hardMode           = d.hardMode     ?? false;
-    S.wrongGuesses       = d.wrongGuesses ?? 0;
-    S.gameStarted        = d.gameStarted  ?? false;
+    S.hardMode           = d.hardMode          ?? false;
+    S.wrongGuesses       = d.wrongGuesses       ?? 0;
+    S.invalidAttempts    = d.invalidAttempts    ?? 0;
+    S.hintsUsed          = d.hintsUsed          ?? 0;
+    S.gameStarted        = d.gameStarted        ?? false;
     Timer.elapsed        = d.timerMs      ?? 0;
     return true;
   } catch (e) {
@@ -389,27 +396,34 @@ function incrementCompletions() {
 }
 
 function checkAndUnlockAchievements() {
-  const unlocked      = loadAchievements();
-  const newlyUnlocked = [];
-  const completions   = incrementCompletions();
-  const streak        = getStreak();
-  const timeMs        = Timer._current();
-  const hours         = new Date().getHours();
+  if (completionCache) return completionCache;
 
-  const add = id => { unlocked.add(id); newlyUnlocked.push(id); };
+  const unlocked          = loadAchievements();
+  const newlyUnlocked     = [];
+  const earnedThisSession = [];
+  const completions       = incrementCompletions();
+  const streak            = getStreak();
+  const hours             = new Date().getHours();
 
-  if (!unlocked.has('flawless')   && S.wrongGuesses === 0)          add('flawless');
-  if (!unlocked.has('lightning')  && timeMs <= 90000)               add('lightning');
-  if (!unlocked.has('unbroken')   && streak >= 5)                   add('unbroken');
-  if (!unlocked.has('wordsmith')  && S.wrongGuesses >= 2)           add('wordsmith');
-  if (!unlocked.has('hardboiled') && S.hardMode)                    add('hardboiled');
-  if (!unlocked.has('nightowl')   && hours < 5)                     add('nightowl');
-  if (!unlocked.has('earlybird')  && hours >= 5 && hours < 8)       add('earlybird');
-  if (!unlocked.has('ironwill')   && S.wrongGuesses >= 5)           add('ironwill');
-  if (!unlocked.has('veteran')    && completions >= 10)             add('veteran');
+  const check = (id, condition) => {
+    if (!condition) return;
+    earnedThisSession.push(id);
+    if (!unlocked.has(id)) { unlocked.add(id); newlyUnlocked.push(id); }
+  };
+
+  check('flawless',   S.wrongGuesses === 0 && S.invalidAttempts === 0 && S.hintsUsed === 0);
+  check('lightning',  Timer.elapsed <= 90000);
+  check('unbroken',   streak >= 5);
+  check('wordsmith',  S.wrongGuesses >= 2);
+  check('hardboiled', S.hardMode);
+  check('nightowl',   hours < 5);
+  check('earlybird',  hours >= 5 && hours < 8);
+  check('ironwill',   S.wrongGuesses >= 5);
+  check('veteran',    completions >= 10);
 
   saveAchievements(unlocked);
-  return newlyUnlocked;
+  completionCache = { earnedThisSession, newlyUnlocked };
+  return completionCache;
 }
 
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
@@ -486,6 +500,7 @@ function init() {
     Timer._render();
     if (S.final.solved) {
       renderBank();
+      showAlreadySolvedScreen();
     } else {
       Timer.resumeFrom(Timer.elapsed);
     }
@@ -541,6 +556,36 @@ function onReady() {
   setActive(0);
   Timer.start();
   saveState();
+}
+
+// ─── Already-solved screen ───────────────────────────────────────────────────
+
+function showAlreadySolvedScreen() {
+  const overlay = document.createElement('div');
+  overlay.id = 'already-solved';
+  overlay.style.cssText = 'position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:200;';
+
+  const colors   = getDailyColors();
+  const logoHTML = 'JUGGLE'.split('').map((ch, i) =>
+    `<span class="logo-l${i === 5 ? ' logo-circle' : ''}" data-li="${i}" style="color:${colors[i]}">${ch}</span>`
+  ).join('');
+
+  overlay.innerHTML = `
+    <div style="text-align:center;padding:40px 24px;max-width:360px;width:100%;">
+      <div style="font-size:2.4rem;font-weight:800;letter-spacing:0.16em;display:inline-flex;align-items:center;margin-bottom:28px;">${logoHTML}</div>
+      <p style="font-size:1.05rem;font-weight:700;color:var(--black);margin-bottom:6px;">Today's puzzle has been solved.</p>
+      <p style="font-size:0.85rem;color:var(--grey-dk);margin-bottom:32px;">Check back tomorrow!</p>
+      <button id="as-results-btn" style="display:block;width:100%;padding:14px;background:var(--accent);color:var(--black);font-family:inherit;font-size:0.95rem;font-weight:800;letter-spacing:0.18em;border:none;border-radius:4px;cursor:pointer;margin-bottom:12px;">See Results</button>
+      <button id="as-dismiss-btn" style="background:none;border:none;font-family:inherit;font-size:0.78rem;color:var(--grey-dk);text-decoration:underline;cursor:pointer;">View Puzzle</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  overlay.querySelector('#as-results-btn').addEventListener('click', () => {
+    overlay.remove();
+    showCompletion();
+  });
+  overlay.querySelector('#as-dismiss-btn').addEventListener('click', () => overlay.remove());
 }
 
 // ─── Hard mode ────────────────────────────────────────────────────────────────
@@ -703,12 +748,46 @@ function renderAllSlots() {
   for (let i = 0; i < 6; i++) renderSlots(i);
 }
 
+// ─── Hint ─────────────────────────────────────────────────────────────────────
+
+let _hintTimer = null;
+
+function resetHintTimer() {
+  clearTimeout(_hintTimer);
+  _hintTimer = null;
+  const btn = document.getElementById('hint-btn');
+  if (btn) btn.classList.add('hidden');
+  if (!S.gameStarted || S.final.solved) return;
+  const ws = S.activeWord === 5 ? S.final : S.words[S.activeWord];
+  if (!ws || ws.solved) return;
+  _hintTimer = setTimeout(() => {
+    const b = document.getElementById('hint-btn');
+    if (b) b.classList.remove('hidden');
+  }, 10000);
+}
+
+function giveHint() {
+  const ws = S.activeWord === 5 ? S.final : S.words[S.activeWord];
+  if (!ws || ws.solved) return;
+  let idx = ws.guess.findIndex((g, i) => !ws.confirmed[i] && g === null);
+  if (idx === -1) idx = ws.guess.findIndex((g, i) => !ws.confirmed[i] && g !== ws.answer[i]);
+  if (idx === -1) return;
+  ws.guess[idx]     = ws.answer[idx];
+  ws.confirmed[idx] = true;
+  S.cursor = firstOpenSlot(ws);
+  S.hintsUsed++;
+  renderSlots(S.activeWord);
+  renderBank();
+  saveState();
+}
+
 // ─── Letter bank ──────────────────────────────────────────────────────────────
 // Duplicate-letter safe: tracks placement counts per letter rather than
 // assuming each letter appears only once.
 
 function renderBank() {
   if (S.final.solved) { renderJuggleTiles(); return; }
+  resetHintTimer();
 
   const bank    = document.getElementById('bank');
   bank.innerHTML = '';
@@ -776,28 +855,30 @@ function renderBank() {
     bank.appendChild(tile);
   });
 
-  const blank = document.createElement('div');
-  blank.className  = 'tile tile-blank';
-  blank.textContent = '⎵';
-  blank.addEventListener('click', () => placeTile(null));
-  bank.appendChild(blank);
-
   updateSubmit();
 }
 
 function renderJuggleTiles() {
+  clearTimeout(_hintTimer);
+  _hintTimer = null;
+  const hintBtn = document.getElementById('hint-btn');
+  if (hintBtn) hintBtn.classList.add('hidden');
+
   const bank = document.getElementById('bank');
   bank.innerHTML = '';
   const colors = getDailyColors();
   'JUGGLE'.split('').forEach((ch, i) => {
     const tile = document.createElement('div');
     tile.className  = 'tile tile-juggle';
+    if (i === 5) tile.classList.add('tile-juggle-e');
     tile.textContent = ch;
     tile.style.color = colors[i];
     bank.appendChild(tile);
   });
   const btn = document.getElementById('submit-btn');
   if (btn) btn.classList.add('hidden');
+  const vr = document.getElementById('view-results-btn');
+  if (vr) vr.classList.remove('hidden');
 }
 
 // ─── Tile placement ───────────────────────────────────────────────────────────
@@ -881,8 +962,7 @@ function selectWordAt(idx, preferredCursor) {
   const ws = idx === 5 ? S.final : S.words[idx];
   if (ws.solved) return;
 
-  const hasLetters = ws.guess.some(g => g !== null);
-  S.cursor = (hasLetters && preferredCursor !== undefined && !ws.confirmed[preferredCursor])
+  S.cursor = (preferredCursor !== undefined && !ws.confirmed[preferredCursor])
     ? preferredCursor
     : firstOpenSlot(ws);
 
@@ -913,8 +993,7 @@ function onSlotClick(wordIdx, pos) {
     renderSlots(wordIdx);
     renderBank();
   } else {
-    const hasLetters = ws.guess.some(g => g !== null);
-    selectWordAt(wordIdx, hasLetters ? pos : undefined);
+    selectWordAt(wordIdx, pos);
   }
 }
 
@@ -938,6 +1017,8 @@ function bindGlobalEvents() {
   document.getElementById('ach-backdrop').addEventListener('click', closeAchievementsModal);
 
   document.getElementById('submit-btn').addEventListener('click', handleSubmit);
+  document.getElementById('hint-btn').addEventListener('click', giveHint);
+  document.getElementById('view-results-btn').addEventListener('click', () => showCompletion());
 
   document.getElementById('timer-display').addEventListener('click', () => {
     Timer.hidden = !Timer.hidden;
@@ -945,12 +1026,6 @@ function bindGlobalEvents() {
     saveSettings();
   });
 
-  document.getElementById('streak-badge').addEventListener('click', () => {
-    const b = document.getElementById('streak-badge');
-    if (b.classList.contains('hidden')) return;
-    b.classList.add('tooltip-show');
-    setTimeout(() => b.classList.remove('tooltip-show'), 2200);
-  });
 }
 
 function onKey(e) {
@@ -979,7 +1054,6 @@ function onKey(e) {
     return;
   }
 
-  if (k === ' ')     { e.preventDefault(); placeTile(null); return; }
   if (k === 'Enter') { e.preventDefault(); handleSubmit();  return; }
 
   if (/^[a-zA-Z]$/.test(k)) {
@@ -998,7 +1072,7 @@ function shiftWord(dir) {
   if (idx < 0 || idx > 5) return;
   if (idx === 5 && !allPrimaryDone()) return;
   const ws = idx === 5 ? S.final : S.words[idx];
-  const cursor = ws.guess.some(g => g !== null) ? firstBlankSlot(ws) : S.cursor;
+  const cursor = ws.guess.some(g => g !== null) ? firstBlankSlot(ws) : undefined;
   selectWordAt(idx, cursor);
 }
 
@@ -1030,8 +1104,11 @@ function handleSubmit() {
   const isFinal = S.activeWord === 5;
   const ws      = isFinal ? S.final : S.words[S.activeWord];
 
-  if (!ws.guess.every(g => g !== null) || !isValidGuess(ws.guess.join(''))) {
+  if (!ws.guess.every(g => g !== null)) { shakeSubmit(); return; }
+  if (!isValidGuess(ws.guess.join(''))) {
+    S.invalidAttempts++;
     shakeSubmit();
+    saveState();
     return;
   }
 
@@ -1139,7 +1216,10 @@ function closeHowModal() {
 
 // ─── Achievements modal ───────────────────────────────────────────────────────
 
-function openAchievementsModal() {
+let _achFromCompletion = false;
+
+function openAchievementsModal(fromCompletion = false) {
+  _achFromCompletion = fromCompletion;
   if (S.gameStarted && !S.final.solved) Timer.pause();
   renderAchievementsGrid();
   document.getElementById('achievements-modal').classList.add('modal-open');
@@ -1148,6 +1228,10 @@ function openAchievementsModal() {
 function closeAchievementsModal() {
   document.getElementById('achievements-modal').classList.remove('modal-open');
   if (S.gameStarted && !S.final.solved) Timer.resume();
+  if (_achFromCompletion) {
+    _achFromCompletion = false;
+    showCompletion();
+  }
 }
 
 function renderAchievementsGrid() {
@@ -1199,22 +1283,30 @@ function renderAchievementsGrid() {
 function showCompletion() {
   if (document.getElementById('completion')) return;
 
-  const newlyUnlocked = checkAndUnlockAchievements();
+  const { earnedThisSession } = checkAndUnlockAchievements();
   const time      = Timer.format();
-  const modeTag   = S.hardMode ? 'Hard' : 'Easy';
   const cleanPlay = S.wrongGuesses === 0;
 
-  const achHTML = newlyUnlocked.length ? `
+  const tags = [];
+  if (S.hardMode) tags.push('Hard');
+
+  // Build share text with URL embedded so iMessage shows the full message
+  const url        = getShareUrl();
+  const timeStr    = time + (S.hardMode ? '*' : '');
+  const shareLines = [S.puzzle.theme, timeStr];
+  if (url) shareLines.push(url);
+  const shareText  = shareLines.join('\n');
+
+  const achSection = earnedThisSession.length ? `
     <div id="completion-achievements">
-      <div class="completion-ach-eyebrow">${newlyUnlocked.length === 1 ? 'Achievement Unlocked' : 'Achievements Unlocked'}</div>
-      ${newlyUnlocked.map(id => {
+      <div class="completion-ach-eyebrow">${earnedThisSession.length === 1 ? 'Achievement Unlocked' : 'Achievements Unlocked'}</div>
+      ${earnedThisSession.map(id => {
         const a = ACHIEVEMENTS.find(x => x.id === id);
         return `<div class="completion-ach-row">
           <span class="completion-ach-icon" style="color:${a.color1}">${a.icon}</span>
           <span class="completion-ach-name">${a.label}</span>
         </div>`;
       }).join('')}
-      <button class="ghost-btn" id="ach-from-card">View achievements</button>
     </div>` : '';
 
   const overlay = document.createElement('div');
@@ -1225,10 +1317,10 @@ function showCompletion() {
       <div id="completion-theme">${S.puzzle.theme}</div>
       <div id="completion-time">${time}${S.hardMode ? '<sup>*</sup>' : ''}</div>
       <div id="completion-tags">
-        <span class="ctag">${modeTag}</span>
-        ${cleanPlay ? '<span class="ctag">No Mistakes</span>' : ''}
+        ${tags.map(t => `<span class="ctag">${t}</span>`).join('')}
       </div>
-      ${achHTML}
+      ${achSection}
+      <button class="ghost-btn" id="ach-from-card" style="font-size:0.72rem;">View achievements →</button>
       <button id="share-btn">Share</button>
       <div id="share-confirm" class="hidden"></div>
       <div id="feedback-wrap">
@@ -1242,7 +1334,6 @@ function showCompletion() {
   `;
   document.body.appendChild(overlay);
 
-  // Confetti: canvas inserted before the card so particles appear behind it.
   let stopConfetti = null;
   if (!confettiFired && typeof confetti === 'function') {
     confettiFired = true;
@@ -1270,13 +1361,9 @@ function showCompletion() {
   };
   overlay.addEventListener('click', e => { if (e.target === overlay) dismissOverlay(); });
   overlay.querySelector('#completion-close').addEventListener('click', dismissOverlay);
+  overlay.querySelector('#ach-from-card').addEventListener('click', () => { dismissOverlay(); openAchievementsModal(true); });
 
-  const achFromCard = overlay.querySelector('#ach-from-card');
-  if (achFromCard) {
-    achFromCard.addEventListener('click', () => { dismissOverlay(); openAchievementsModal(); });
-  }
-
-  // Share button — must be called directly from click to satisfy user-activation requirement
+  // Share — URL embedded in text so iMessage shows full message, not just a link preview
   overlay.querySelector('#share-btn').addEventListener('click', () => {
     const shareConfirm = overlay.querySelector('#share-confirm');
     const showMsg = (msg) => {
@@ -1285,21 +1372,12 @@ function showCompletion() {
       setTimeout(() => shareConfirm.classList.add('hidden'), 2500);
     };
 
-    const url     = getShareUrl();
-    const lines   = [S.puzzle.theme, todayDisplayDate()];
-    lines.push(Timer.format() + (S.hardMode ? '*' : ''));
-    // shareText omits "JUGGLE" — the native share title supplies it
-    const shareText = lines.join('\n');
-    const clipText  = ['JUGGLE', ...lines].join('\n') + (url ? `\n${url}` : '');
-
     if (navigator.share) {
-      const shareData = { title: 'JUGGLE', text: shareText };
-      if (url) shareData.url = url;
-      navigator.share(shareData)
+      navigator.share({ title: 'JUGGLE', text: shareText })
         .then(() => showMsg('Shared!'))
-        .catch(err => { if (err.name !== 'AbortError') copyToClipboard(clipText, showMsg); });
+        .catch(err => { if (err.name !== 'AbortError') copyToClipboard(shareText, showMsg); });
     } else {
-      copyToClipboard(clipText, showMsg);
+      copyToClipboard(shareText, showMsg);
     }
   });
 
@@ -1345,7 +1423,7 @@ function showCompletion() {
         body:    JSON.stringify(payload),
       });
       if (res.ok) {
-        btn.textContent = 'Sent ✓';
+        btn.textContent = 'Thank you!';
         overlay.querySelector('#feedback-text').value = '';
       } else {
         btn.textContent = 'Error — try again';

@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JUMBLE — Swatches v2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700;800&family=Figtree:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&family=Urbanist:wght@400;500;600;700;800&family=Epilogue:wght@400;500;600;700;800&family=Albert+Sans:wght@400;500;600;700;800&family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #E4E4E0;
+      color: #111;
+      font-family: 'Inter', sans-serif;
+      padding: 48px 32px 120px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── Page header ── */
+    .ph { margin-bottom: 60px; border-bottom: 3px solid #111; padding-bottom: 20px; }
+    .ph-eyebrow { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #888; margin-bottom: 8px; }
+    .ph-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .ph-body { font-size: 0.8rem; color: #555; line-height: 1.8; max-width: 620px; }
+    .ph-note { display: inline-block; background: #111; color: #fff; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 10px; border-radius: 3px; margin-top: 10px; }
+
+    /* ── Section ── */
+    .sec { margin-bottom: 80px; }
+    .sec-eyebrow { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #999; padding-top: 14px; border-top: 1.5px solid #bbb; margin-bottom: 4px; }
+    .sec-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 6px; }
+    .sec-desc { font-size: 0.78rem; color: #666; line-height: 1.75; margin-bottom: 26px; max-width: 600px; }
+
+    /* ── Opt grid ── */
+    .opt-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; }
+    .opt { background: #fff; border-radius: 10px; padding: 16px 14px 12px; flex: 1; min-width: 170px; max-width: 280px; }
+    .opt.wide { max-width: 380px; }
+    .opt.full { max-width: 100%; flex: 0 0 100%; }
+    .opt-tag { font-size: 0.56rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #aaa; margin-bottom: 4px; }
+    .opt-name { font-size: 0.73rem; font-weight: 600; color: #333; margin-bottom: 12px; line-height: 1.4; }
+
+    /* ── Mini game panel ── */
+    .mgp { border-radius: 6px; padding: 12px 10px 10px; background: #fff; }
+    .mgp.cream  { background: #FEFCF3; }
+    .mgp.cream2 { background: #FDF8EE; }
+    .mgp-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .mgp-logo { font-size: 1rem; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; display: inline-flex; align-items: center; }
+    .mgp-circle { display: inline-flex; align-items: center; justify-content: center; width: 1.1em; height: 1.1em; border: 2px solid currentColor; border-radius: 50%; flex-shrink: 0; line-height: 1; }
+    .mgp-meta { font-size: 0.55rem; color: #aaa; text-align: right; line-height: 1.5; }
+    .mgp-theme-line { font-size: 0.56rem; color: #888; letter-spacing: 0.08em; margin-bottom: 10px; text-align: center; }
+    .mgp-row { margin-bottom: 8px; }
+    .mgp-prompt { font-size: 0.44rem; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: #ccc; margin-bottom: 3px; text-align: center; }
+    .mgp-slots { display: flex; gap: 3px; justify-content: center; }
+    .mgp-slot {
+      width: 24px; height: 30px;
+      border-bottom: 2px solid #111;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.74rem; font-weight: 700; text-transform: uppercase;
+      position: relative;
+    }
+    .mgp-slot.circled::after { content: ''; position: absolute; inset: 2px 0 4px; border: 1.5px solid #111; border-radius: 50%; pointer-events: none; }
+    .mgp-slot.confirmed { border-bottom-color: #e0e0e0; color: #ccc; }
+    .mgp-btn { display: block; width: 100%; padding: 6px; background: #111; color: #fff; font-size: 0.56rem; font-weight: 700; letter-spacing: 0.2em; border: none; border-radius: 3px; text-align: center; text-transform: uppercase; margin-top: 8px; font-family: inherit; }
+
+    /* ══════ §A TYPOGRAPHY ══════ */
+    .font-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #fff; background: #555; display: inline-block; padding: 2px 8px; border-radius: 2px; margin-bottom: 8px; }
+    .font-specimen { margin-bottom: 10px; }
+    .font-specimen .word-display { font-size: 1.4rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; line-height: 1.1; margin-bottom: 2px; }
+    .font-specimen .theme-display { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; color: #777; margin-bottom: 6px; }
+    .font-specimen .body-display { font-size: 0.7rem; line-height: 1.65; color: #555; }
+    .font-pair-note { font-size: 0.63rem; color: #999; margin-top: 6px; font-style: italic; }
+
+    /* ══════ §B ACCENT COLORS ══════ */
+    .color-family { margin-bottom: 28px; }
+    .family-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #666; margin-bottom: 10px; }
+    .swatches-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .swatch-card { background: #fff; border-radius: 8px; padding: 10px; width: 130px; }
+    .swatch-box { width: 100%; height: 48px; border-radius: 5px; margin-bottom: 8px; }
+    .swatch-hex { font-size: 0.62rem; font-weight: 600; font-family: monospace; color: #444; margin-bottom: 2px; }
+    .swatch-name { font-size: 0.6rem; color: #888; }
+    .swatch-demo { display: flex; gap: 5px; margin-top: 6px; align-items: center; }
+    /* mini slot with accent underline */
+    .demo-slot-accent { width: 18px; height: 22px; border-bottom: 2.5px solid; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; }
+    /* mini circled slot with accent */
+    .demo-slot-circle { width: 18px; height: 22px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; border-bottom: 1px solid #ddd; }
+    .demo-slot-circle::after { content: ''; position: absolute; inset: 1px 0 3px; border: 1.5px solid; border-radius: 50%; }
+    /* mini badge */
+    .demo-badge { font-size: 0.55rem; font-weight: 700; padding: 2px 6px; border-radius: 10px; color: #fff; }
+
+    /* ══════ §C BACKGROUNDS ══════ */
+    .bg-card { border-radius: 10px; padding: 16px; flex: 1; min-width: 160px; max-width: 240px; }
+    .bg-chip-row { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
+    .bg-chip { font-size: 0.6rem; font-weight: 600; padding: 3px 8px; border-radius: 3px; background: rgba(0,0,0,0.06); color: #555; }
+
+    /* ══════ §D STREAK BADGES ══════ */
+    .badge-opt { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 10px; }
+    .badge-display { display: flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 700; }
+    .badge-display svg { flex-shrink: 0; }
+    .badge-context { font-size: 0.55rem; color: #aaa; text-align: center; line-height: 1.6; }
+    .badge-in-header { display: flex; align-items: center; gap: 6px; background: #f5f5f5; border-radius: 6px; padding: 5px 10px; font-size: 0.7rem; }
+    .badge-in-header .q-btn { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #bbb; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; color: #555; }
+
+    /* ══════ §E ACHIEVEMENT RIBBONS ══════ */
+    .ribbon-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+    .ribbon-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .ribbon-label { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #888; }
+
+    /* Style A — Medal + drop ribbon */
+    .medal-a { display: flex; flex-direction: column; align-items: center; }
+    .medal-a .ribbon-bar {
+      width: 28px; height: 32px;
+      display: flex; gap: 4px;
+    }
+    .medal-a .r-strip {
+      flex: 1; height: 100%;
+      clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+    }
+    .medal-a .medal-face {
+      width: 46px; height: 46px; border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 0.55rem; font-weight: 800; letter-spacing: 0.05em;
+      text-transform: uppercase; text-align: center; line-height: 1.2;
+      border: 2.5px solid;
+    }
+
+    /* Style B — Horizontal banner */
+    .medal-b { display: flex; align-items: center; gap: 0; }
+    .medal-b .banner-body { padding: 8px 14px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+    .medal-b .banner-notch-l {
+      width: 12px; height: 100%; min-height: 34px;
+      clip-path: polygon(100% 0, 100% 100%, 0 50%);
+    }
+    .medal-b .banner-notch-r {
+      width: 12px; height: 100%; min-height: 34px;
+      clip-path: polygon(0 0, 0 100%, 100% 50%);
+    }
+
+    /* Style C — Rosette */
+    .rosette { position: relative; width: 52px; height: 52px; }
+    .rosette-rays {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      background: repeating-conic-gradient(from 0deg, var(--c1) 0deg 12deg, var(--c2) 12deg 24deg);
+    }
+    .rosette-inner {
+      position: absolute; inset: 8px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 0.42rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; text-align: center; line-height: 1.2;
+    }
+
+    /* ══════ §F CONFETTI ══════ */
+    .conf-palette { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .conf-dot { width: 28px; height: 28px; border-radius: 50%; }
+    .conf-desc { font-size: 0.7rem; color: #666; line-height: 1.6; }
+    .conf-sim {
+      height: 70px; border-radius: 6px; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      margin-top: 8px;
+    }
+    .conf-piece { position: absolute; width: 6px; height: 9px; opacity: 0.85; }
+
+    /* ══════ §G CONFIRMED ══════ */
+    .confirmed-row { display: flex; flex-wrap: wrap; gap: 14px; }
+    .conf-item { background: #fff; border-radius: 8px; padding: 14px; flex: 1; min-width: 200px; }
+    .conf-item-label { font-size: 0.56rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #aaa; margin-bottom: 6px; }
+    .conf-item-title { font-size: 0.78rem; font-weight: 700; margin-bottom: 8px; }
+
+    /* Cursor D preview */
+    .cursor-d-slot {
+      width: 28px; height: 34px;
+      border-bottom: 2.5px solid #F47B55;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.82rem; font-weight: 700;
+    }
+    .cursor-default-slot {
+      width: 28px; height: 34px;
+      border-bottom: 2px solid #ccc;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.82rem; font-weight: 700; color: #ccc;
+    }
+
+    /* Timer pill preview */
+    .timer-pill-show { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; padding: 3px 10px; border: 1.5px solid #111; border-radius: 20px; cursor: pointer; }
+    .timer-pill-hide { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; padding: 3px 10px; border: 1.5px solid #ccc; border-radius: 20px; color: #ccc; cursor: pointer; }
+
+    hr.divider { border: none; border-top: 1px solid #e8e8e8; margin: 12px 0; }
+  </style>
+</head>
+<body>
+
+<div class="ph">
+  <div class="ph-eyebrow">Jumble — Design System</div>
+  <div class="ph-title">Swatches v2</div>
+  <div class="ph-body">Iteration on v1 feedback. Nothing here is final — use this to narrow down remaining decisions. Covers: typography (expanded), accent colors (3 families), background cream, streak icons, achievement ribbons, and confetti palette.</div>
+  <div class="ph-note">Previous picks not yet locked — continue exploring</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     §A  TYPOGRAPHY ROUND 2
+══════════════════════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">§A</div>
+  <div class="sec-title">Typography — Round 2</div>
+  <div class="sec-desc">Plus Jakarta Sans from v1 shown as Option A for reference. Seven new options explore different personality ranges — from ultra-geometric to warm-rounded. Every panel shows the same content: logo, theme label, answer placeholders, a solved word, and the ENTER button.</div>
+  <div class="opt-row">
+
+    <!-- A: Plus Jakarta Sans (reference) -->
+    <div class="opt wide">
+      <div class="opt-tag">Option A — Reference</div>
+      <div class="opt-name">Plus Jakarta Sans — current favourite</div>
+      <div class="mgp" style="font-family:'Plus Jakarta Sans',sans-serif;">
+        <div class="mgp-header">
+          <div class="mgp-logo" style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:800;">JUMBL<span class="mgp-circle">E</span></div>
+          <div class="mgp-meta">Mon · May 24</div>
+        </div>
+        <div class="mgp-theme-line" style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; font-size:0.56rem; color:#555;">Around the House</div>
+        <div class="mgp-row">
+          <div class="mgp-prompt">Word 1 of 5</div>
+          <div class="mgp-slots">
+            <div class="mgp-slot">C</div>
+            <div class="mgp-slot confirmed">L</div>
+            <div class="mgp-slot">O</div>
+            <div class="mgp-slot circled">S</div>
+            <div class="mgp-slot">E</div>
+            <div class="mgp-slot">T</div>
+          </div>
+        </div>
+        <div class="mgp-btn">Enter</div>
+      </div>
+      <div class="font-pair-note">Geometric, clean, strong weight range. Feels editorial but approachable.</div>
+    </div>
+
+    <!-- B: Outfit -->
+    <div class="opt wide">
+      <div class="opt-tag">Option B</div>
+      <div class="opt-name">Outfit — Geometric, open forms</div>
+      <div class="mgp" style="font-family:'Outfit',sans-serif;">
+        <div class="mgp-header">
+          <div class="mgp-logo" style="font-family:'Outfit',sans-serif; font-weight:800;">JUMBL<span class="mgp-circle">E</span></div>
+          <div class="mgp-meta" style="font-family:'Outfit',sans-serif;">Mon · May 24</div>
+        </div>
+        <div class="mgp-theme-line" style="font-family:'Outfit',sans-serif; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; font-size:0.56rem; color:#555;">Around the House</div>
+        <div class="mgp-row">
+          <div class="mgp-prompt">Word 1 of 5</div>
+          <div class="mgp-slots">
+            <div class="mgp-slot" style="font-family:'Outfit',sans-serif;">C</div>
+            <div class="mgp-slot confirmed" style="font-family:'Outfit',sans-serif;">L</div>
+            <div class="mgp-slot" style="font-family:'Outfit',sans-serif;">O</div>
+            <div class="mgp-slot circled" style="font-family:'Outfit',sans-serif;">S</div>
+            <div class="mgp-slot" style="font-family:'Outfit',sans-serif;">E</div>
+            <div class="mgp-slot" style="font-family:'Outfit',sans-serif;">T</div>
+          </div>
+        </div>
+        <div class="mgp-btn" style="font-family:'Outfit',sans-serif;">Enter</div>
+      </div>
+      <div class="font-pair-note">Very geometric — O is a perfect circle. Wide, airy, somewhat neutral. Feels tech-adjacent.</div>
+    </div>
+
+    <!-- C: Figtree -->
+    <div class="opt wide">
+      <div class="opt-tag">Option C</div>
+      <div class="opt-name">Figtree — Crisp, slightly humanist</div>
+      <div class="mgp" style="font-family:'Figtree',sans-serif;">
+        <div class="mgp-header">
+          <div class="mgp-logo" style="font-family:'Figtree',sans-serif; font-weight:800;">JUMBL<span class="mgp-circle">E</span></div>
+          <div class="mgp-meta" style="font-family:'Figtree',sans-serif;">Mon · May 24</div>
+        </div>
+        <div class="mgp-theme-line" style="font-family:'Figtree',sans-serif; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; font-size:0.56rem; color:#555;">Around the House</div>
+        <div class="mgp-row">
+          <div class="mgp-prompt">Word 1 of 5</div>
+          <div class="mgp-slots">
+            <div class="mgp-slot" style="font-family:'Figtree',sans-serif;">C</div>
+            <div class="mgp-slot confirmed" style="font-family:'Figtree',sans-serif;">L</div>
+            <div class="mgp-slot" style="font-family:'Figtree',sans-serif;">O</div>
+            <div class="mgp-slot circled" style="font-family:'Figtree',sans-serif;">S</div>
+            <div class="mgp-slot" style="font-family:'Figtree',sans-serif;">E</div>
+            <div class="mgp-slot" style="font-family:'Figtree',sans-serif;">T</div>
+          </div>
+        </div>
+        <div class="mgp-btn" style="font-family:'Figtree',sans-serif;">Enter</div>
+      </div>
+      <div class="font-pair-note">Slightly rounded terminals, clean but not cold. More personality than Inter, less assertive than Plus Jakarta Sans.</div>
+    </div>
+
+    <!-- D: Urbanist -->
+    <div class="opt wide">
+      <div class="opt-tag">Option D</div>
+      <div class="opt-name">Urbanist — Tall, editorial, architectural</div>
+      <div class="mgp" style="font-family:'Urbanist',sans-serif;">
+        <div class="mgp-header">
+          <div class="mgp-logo" style="font-family:'Urbanist',sans-serif; font-weight:800;">JUMBL<span class="mgp-circle">E</span></div>
+          <div class="mgp-meta" style="font-family:'Urbanist',sans-serif;">Mon · May 24</div>
+        </div>
+        <div class="mgp-theme-line" style="font-family:'Urbanist',sans-serif; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; font-size:0.56rem; color:#555;">Around the House</div>
+        <div class="mgp-row">
+          <div class="mgp-prompt">Word 1 of 5</div>
+          <div class="mgp-slots">
+            <div class="mgp-slot" style="font-family:'Urbanist',sans-serif;">C</div>
+            <div class="mgp-slot confirmed" style="font-family:'Urbanist',sans-serif;">L</div>
+            <div class="mgp-slot" style="font-family:'Urbanist',sans-serif;">O</div>
+            <div class="mgp-slot circled" style="font-family:'Urbanist',sans-serif;">S</div>
+            <div class="mgp-slot" style="font-family:'Urbanist',sans-serif;">E</div>
+            <div class="mgp-slot" style="font-family:'Urbanist',sans-serif;">T</div>
+          </div>
+        </div>
+        <div class="mgp-btn" style="font-family:'Urbanist',sans-serif;">Enter</div>
+      </div>
+      <div class="font-pair-note">Tall x-height, very condensed in feel. Architectural and editorial. Strong uppercase presence.</div>
+    </div>
+
+    <!-- E: Epilogue -->
+    <div class="opt wide">
+      <div class="opt-tag">Option E</div>
+      <div class="opt-name">Epilogue — Structured, slightly bracketed</div>
+      <div class="mgp" style="font-family:'Epilogue',sans-serif;">
+        <div class="mgp-header">
+          <div class="mgp-logo" style="font-family:'Epilogue',sans-serif; font-weight:800;">JUMBL<span class="mgp-circle">E</span></div>
+          <div class="mgp-meta" style="font-family:'Epilogue',sans-serif;">Mon · May 24</div>
+        </div>
+        <div class="mgp-theme-line" style="font-family:'Epilogue',sans-serif; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; font-size:0.56rem; color:#555;">Around the House</div>
+        <div class="mgp-row">
+          <div class="mgp-prompt">Word 1 of 5</div>
+          <div class="mgp-slots">
+            <div class="mgp-slot" style="font-family:'Epilogue',sans-serif;">C</div>
+            <div class="mgp-slot confirmed" style="font-family:'Epilogue',sans-serif;">L</div>
+            <div class="mgp-slot" style="font-family:'Epilogue',sans-serif;">O</div>
+            <div class="mgp-slot circled" style="font-family:'Epilogue',sans-serif;">S</div>
+            <div class="mgp-slot" style="font-family:'Epilogue',sans-serif;">E</div>
+            <div class="mgp-slot" style="font-family:'Epilogue',sans-serif;">T</div>
+          </div>
+        </div>
+        <div class="mgp-btn" style="font-family:'Epilogue',sans-serif;">Enter</div>
+      </div>
+      <div class="font-pair-note">Has subtle bracketing on strokes — between sans and transitional serif. Serious, classic, monolithic in caps.</div>
+    </div>
+
+    <!-- F: Albert Sans -->
+    <div class="opt wide">
+      <div class="opt-tag">Option F</div>
+      <div class="opt-name">Albert Sans — Refined, neutral, airy</div>
+      <div class="mgp" style="font-family:'Albert Sans',sans-serif;">
+        <div class="mgp-header">
+          <div class="mgp-logo" style="font-family:'Albert Sans',sans-serif; font-weight:800;">JUMBL<span class="mgp-circle">E</span></div>
+          <div class="mgp-meta" style="font-family:'Albert Sans',sans-serif;">Mon · May 24</div>
+        </div>
+        <div class="mgp-theme-line" style="font-family:'Albert Sans',sans-serif; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; font-size:0.56rem; color:#555;">Around the House</div>
+        <div class="mgp-row">
+          <div class="mgp-prompt">Word 1 of 5</div>
+          <div class="mgp-slots">
+            <div class="mgp-slot" style="font-family:'Albert Sans',sans-serif;">C</div>
+            <div class="mgp-slot confirmed" style="font-family:'Albert Sans',sans-serif;">L</div>
+            <div class="mgp-slot" style="font-family:'Albert Sans',sans-serif;">O</div>
+            <div class="mgp-slot circled" style="font-family:'Albert Sans',sans-serif;">S</div>
+            <div class="mgp-slot" style="font-family:'Albert Sans',sans-serif;">E</div>
+            <div class="mgp-slot" style="font-family:'Albert Sans',sans-serif;">T</div>
+          </div>
+        </div>
+        <div class="mgp-btn" style="font-family:'Albert Sans',sans-serif;">Enter</div>
+      </div>
+      <div class="font-pair-note">Scandinavian-influenced. Very clean, open, slightly wide letter-spacing. Refined without being cold.</div>
+    </div>
+
+    <!-- G: Bricolage Grotesque -->
+    <div class="opt wide">
+      <div class="opt-tag">Option G</div>
+      <div class="opt-name">Bricolage Grotesque — Variable-width, expressive</div>
+      <div class="mgp" style="font-family:'Bricolage Grotesque',sans-serif;">
+        <div class="mgp-header">
+          <div class="mgp-logo" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800;">JUMBL<span class="mgp-circle">E</span></div>
+          <div class="mgp-meta" style="font-family:'Bricolage Grotesque',sans-serif;">Mon · May 24</div>
+        </div>
+        <div class="mgp-theme-line" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; font-size:0.56rem; color:#555;">Around the House</div>
+        <div class="mgp-row">
+          <div class="mgp-prompt">Word 1 of 5</div>
+          <div class="mgp-slots">
+            <div class="mgp-slot" style="font-family:'Bricolage Grotesque',sans-serif;">C</div>
+            <div class="mgp-slot confirmed" style="font-family:'Bricolage Grotesque',sans-serif;">L</div>
+            <div class="mgp-slot" style="font-family:'Bricolage Grotesque',sans-serif;">O</div>
+            <div class="mgp-slot circled" style="font-family:'Bricolage Grotesque',sans-serif;">S</div>
+            <div class="mgp-slot" style="font-family:'Bricolage Grotesque',sans-serif;">E</div>
+            <div class="mgp-slot" style="font-family:'Bricolage Grotesque',sans-serif;">T</div>
+          </div>
+        </div>
+        <div class="mgp-btn" style="font-family:'Bricolage Grotesque',sans-serif;">Enter</div>
+      </div>
+      <div class="font-pair-note">Has mixed-width letters that create an intentional irregularity. Very distinctive. More editorial and characterful than the others.</div>
+    </div>
+
+    <!-- H: Nunito -->
+    <div class="opt wide">
+      <div class="opt-tag">Option H</div>
+      <div class="opt-name">Nunito — Rounded, soft, approachable</div>
+      <div class="mgp" style="font-family:'Nunito',sans-serif;">
+        <div class="mgp-header">
+          <div class="mgp-logo" style="font-family:'Nunito',sans-serif; font-weight:800;">JUMBL<span class="mgp-circle">E</span></div>
+          <div class="mgp-meta" style="font-family:'Nunito',sans-serif;">Mon · May 24</div>
+        </div>
+        <div class="mgp-theme-line" style="font-family:'Nunito',sans-serif; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; font-size:0.56rem; color:#555;">Around the House</div>
+        <div class="mgp-row">
+          <div class="mgp-prompt">Word 1 of 5</div>
+          <div class="mgp-slots">
+            <div class="mgp-slot" style="font-family:'Nunito',sans-serif;">C</div>
+            <div class="mgp-slot confirmed" style="font-family:'Nunito',sans-serif;">L</div>
+            <div class="mgp-slot" style="font-family:'Nunito',sans-serif;">O</div>
+            <div class="mgp-slot circled" style="font-family:'Nunito',sans-serif;">S</div>
+            <div class="mgp-slot" style="font-family:'Nunito',sans-serif;">E</div>
+            <div class="mgp-slot" style="font-family:'Nunito',sans-serif;">T</div>
+          </div>
+        </div>
+        <div class="mgp-btn" style="font-family:'Nunito',sans-serif;">Enter</div>
+      </div>
+      <div class="font-pair-note">Rounded terminals on every stroke. Warm and soft. Shown here as a contrast to how "serious" the others feel — included to confirm or reject that direction.</div>
+    </div>
+
+  </div><!-- /opt-row -->
+</div><!-- /§A -->
+
+<!-- ══════════════════════════════════════════════════════════
+     §B  ACCENT COLORS — THREE FAMILIES
+══════════════════════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">§B</div>
+  <div class="sec-title">Accent Color — Three Families</div>
+  <div class="sec-desc">Each swatch shows the hex, a name, and three in-context uses: the active-slot underline, a circled bonus square, and a small badge pill. This shows how the color behaves at small scale, not just as a large block.</div>
+
+  <!-- Peach / Apricot -->
+  <div class="color-family">
+    <div class="family-label">Peach &amp; Apricot — warm, energetic</div>
+    <div class="swatches-row">
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#FBCFB0;"></div>
+        <div class="swatch-hex">#FBCFB0</div>
+        <div class="swatch-name">Blush Peach</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#FBCFB0; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111;"><span style="border-color:#FBCFB0; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span>S</div>
+          <div class="demo-badge" style="background:#FBCFB0; color:#7a4a2a;">Hard</div>
+        </div>
+      </div>
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#F7A87A;"></div>
+        <div class="swatch-hex">#F7A87A</div>
+        <div class="swatch-name">Soft Apricot</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#F7A87A; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111; position:relative;">S<span style="border-color:#F7A87A; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span></div>
+          <div class="demo-badge" style="background:#F7A87A; color:#fff;">Hard</div>
+        </div>
+      </div>
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#F47B55;"></div>
+        <div class="swatch-hex">#F47B55</div>
+        <div class="swatch-name">Warm Apricot ← v1 pick</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#F47B55; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111; position:relative;">S<span style="border-color:#F47B55; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span></div>
+          <div class="demo-badge" style="background:#F47B55; color:#fff;">Hard</div>
+        </div>
+      </div>
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#E86D4A;"></div>
+        <div class="swatch-hex">#E86D4A</div>
+        <div class="swatch-name">Deeper Terracotta</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#E86D4A; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111; position:relative;">S<span style="border-color:#E86D4A; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span></div>
+          <div class="demo-badge" style="background:#E86D4A; color:#fff;">Hard</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Lavender -->
+  <div class="color-family">
+    <div class="family-label">Lavender &amp; Soft Violet — cool, refined</div>
+    <div class="swatches-row">
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#E2D9F3;"></div>
+        <div class="swatch-hex">#E2D9F3</div>
+        <div class="swatch-name">Pale Lavender</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#E2D9F3; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111; position:relative;">S<span style="border-color:#E2D9F3; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span></div>
+          <div class="demo-badge" style="background:#E2D9F3; color:#4a3d6e;">Hard</div>
+        </div>
+      </div>
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#C4B0E8;"></div>
+        <div class="swatch-hex">#C4B0E8</div>
+        <div class="swatch-name">Medium Lavender</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#C4B0E8; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111; position:relative;">S<span style="border-color:#C4B0E8; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span></div>
+          <div class="demo-badge" style="background:#C4B0E8; color:#fff;">Hard</div>
+        </div>
+      </div>
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#A08FD4;"></div>
+        <div class="swatch-hex">#A08FD4</div>
+        <div class="swatch-name">Soft Violet</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#A08FD4; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111; position:relative;">S<span style="border-color:#A08FD4; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span></div>
+          <div class="demo-badge" style="background:#A08FD4; color:#fff;">Hard</div>
+        </div>
+      </div>
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#7C6AB8;"></div>
+        <div class="swatch-hex">#7C6AB8</div>
+        <div class="swatch-name">Deep Lavender</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#7C6AB8; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111; position:relative;">S<span style="border-color:#7C6AB8; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span></div>
+          <div class="demo-badge" style="background:#7C6AB8; color:#fff;">Hard</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Pastel Pink -->
+  <div class="color-family">
+    <div class="family-label">Pastel Pink &amp; Rose — warm, soft</div>
+    <div class="swatches-row">
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#FAD4DF;"></div>
+        <div class="swatch-hex">#FAD4DF</div>
+        <div class="swatch-name">Blush Pink</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#FAD4DF; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111; position:relative;">S<span style="border-color:#FAD4DF; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span></div>
+          <div class="demo-badge" style="background:#FAD4DF; color:#7a3050;">Hard</div>
+        </div>
+      </div>
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#F4A0BC;"></div>
+        <div class="swatch-hex">#F4A0BC</div>
+        <div class="swatch-name">Pastel Rose</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#F4A0BC; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111; position:relative;">S<span style="border-color:#F4A0BC; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span></div>
+          <div class="demo-badge" style="background:#F4A0BC; color:#fff;">Hard</div>
+        </div>
+      </div>
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#E87898;"></div>
+        <div class="swatch-hex">#E87898</div>
+        <div class="swatch-name">Deep Rose</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#E87898; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111; position:relative;">S<span style="border-color:#E87898; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span></div>
+          <div class="demo-badge" style="background:#E87898; color:#fff;">Hard</div>
+        </div>
+      </div>
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#C84B70;"></div>
+        <div class="swatch-hex">#C84B70</div>
+        <div class="swatch-name">Berry</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#C84B70; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111; position:relative;">S<span style="border-color:#C84B70; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span></div>
+          <div class="demo-badge" style="background:#C84B70; color:#fff;">Hard</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Sage / Sky -->
+  <div class="color-family">
+    <div class="family-label">Sage &amp; Sky — cool, calm (wildcard)</div>
+    <div class="swatches-row">
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#A8C8B8;"></div>
+        <div class="swatch-hex">#A8C8B8</div>
+        <div class="swatch-name">Sage</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#A8C8B8; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111; position:relative;">S<span style="border-color:#A8C8B8; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span></div>
+          <div class="demo-badge" style="background:#A8C8B8; color:#fff;">Hard</div>
+        </div>
+      </div>
+
+      <div class="swatch-card">
+        <div class="swatch-box" style="background:#A4C0E8;"></div>
+        <div class="swatch-hex">#A4C0E8</div>
+        <div class="swatch-name">Periwinkle Blue</div>
+        <div class="swatch-demo">
+          <div class="demo-slot-accent" style="border-color:#A4C0E8; color:#111;">A</div>
+          <div class="demo-slot-circle" style="border-bottom-color:#ddd; color:#111; position:relative;">S<span style="border-color:#A4C0E8; position:absolute; inset:1px 0 3px; border:1.5px solid; border-radius:50%;"></span></div>
+          <div class="demo-badge" style="background:#A4C0E8; color:#fff;">Hard</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /§B -->
+
+<!-- ══════════════════════════════════════════════════════════
+     §C  BACKGROUND SURFACES — CREAM SPECTRUM
+══════════════════════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">§C</div>
+  <div class="sec-title">Background &amp; Surface — Cream Spectrum</div>
+  <div class="sec-desc">All options lean warm. Each is shown with the full mini game panel rendered at that colour so you can judge the interaction between background and game elements. Hex and LCH-approximate warmth noted below each.</div>
+  <div class="opt-row">
+
+    <div class="opt">
+      <div class="opt-tag">Option A</div>
+      <div class="opt-name">#FEFEF9 — Near white with a whisper of warmth</div>
+      <div class="mgp" style="background:#FEFEF9;">
+        <div class="mgp-header">
+          <div class="mgp-logo" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;">JUMBL<span class="mgp-circle">E</span></div>
+          <div class="mgp-meta">Mon · May 24</div>
+        </div>
+        <div class="mgp-theme-line" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;">Around the House</div>
+        <div class="mgp-row"><div class="mgp-slots"><div class="mgp-slot">C</div><div class="mgp-slot">L</div><div class="mgp-slot circled">O</div><div class="mgp-slot">S</div><div class="mgp-slot">E</div><div class="mgp-slot">T</div></div></div>
+        <div class="mgp-btn">Enter</div>
+      </div>
+      <div class="bg-chip-row"><span class="bg-chip">Warmth: ★☆☆☆</span><span class="bg-chip">Very subtle</span></div>
+    </div>
+
+    <div class="opt">
+      <div class="opt-tag">Option B</div>
+      <div class="opt-name">#FEFCF3 — Warm parchment, barely there</div>
+      <div class="mgp" style="background:#FEFCF3;">
+        <div class="mgp-header">
+          <div class="mgp-logo" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;">JUMBL<span class="mgp-circle">E</span></div>
+          <div class="mgp-meta">Mon · May 24</div>
+        </div>
+        <div class="mgp-theme-line" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;">Around the House</div>
+        <div class="mgp-row"><div class="mgp-slots"><div class="mgp-slot">C</div><div class="mgp-slot">L</div><div class="mgp-slot circled">O</div><div class="mgp-slot">S</div><div class="mgp-slot">E</div><div class="mgp-slot">T</div></div></div>
+        <div class="mgp-btn">Enter</div>
+      </div>
+      <div class="bg-chip-row"><span class="bg-chip">Warmth: ★★☆☆</span><span class="bg-chip">Classic cream</span></div>
+    </div>
+
+    <div class="opt">
+      <div class="opt-tag">Option C</div>
+      <div class="opt-name">#FDF8EE — Definite cream, like quality paper</div>
+      <div class="mgp" style="background:#FDF8EE;">
+        <div class="mgp-header">
+          <div class="mgp-logo" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;">JUMBL<span class="mgp-circle">E</span></div>
+          <div class="mgp-meta">Mon · May 24</div>
+        </div>
+        <div class="mgp-theme-line" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;">Around the House</div>
+        <div class="mgp-row"><div class="mgp-slots"><div class="mgp-slot">C</div><div class="mgp-slot">L</div><div class="mgp-slot circled">O</div><div class="mgp-slot">S</div><div class="mgp-slot">E</div><div class="mgp-slot">T</div></div></div>
+        <div class="mgp-btn">Enter</div>
+      </div>
+      <div class="bg-chip-row"><span class="bg-chip">Warmth: ★★★☆</span><span class="bg-chip">Recognisably cream</span></div>
+    </div>
+
+    <div class="opt">
+      <div class="opt-tag">Option D</div>
+      <div class="opt-name">#FAF5E4 — Rich cream, warm editorial</div>
+      <div class="mgp" style="background:#FAF5E4;">
+        <div class="mgp-header">
+          <div class="mgp-logo" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;">JUMBL<span class="mgp-circle">E</span></div>
+          <div class="mgp-meta">Mon · May 24</div>
+        </div>
+        <div class="mgp-theme-line" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;">Around the House</div>
+        <div class="mgp-row"><div class="mgp-slots"><div class="mgp-slot">C</div><div class="mgp-slot">L</div><div class="mgp-slot circled">O</div><div class="mgp-slot">S</div><div class="mgp-slot">E</div><div class="mgp-slot">T</div></div></div>
+        <div class="mgp-btn">Enter</div>
+      </div>
+      <div class="bg-chip-row"><span class="bg-chip">Warmth: ★★★★</span><span class="bg-chip">Warm + editorial</span></div>
+    </div>
+
+  </div>
+</div><!-- /§C -->
+
+<!-- ══════════════════════════════════════════════════════════
+     §D  STREAK BADGE ICONS
+══════════════════════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">§D</div>
+  <div class="sec-title">Streak Badge — Icon Round 2</div>
+  <div class="sec-desc">The emoji 🔥 is gone. Eight clean SVG options shown at actual scale in context (beside the ? button in the header). All use a simple "icon + number" layout. The icon should feel earned — not decorative.</div>
+  <div class="opt-row">
+
+    <!-- A: Proper flame -->
+    <div class="opt">
+      <div class="opt-tag">Option A — Clean Flame</div>
+      <div class="opt-name">Teardrop flame, inner glow</div>
+      <div class="badge-opt">
+        <div class="badge-in-header">
+          <div class="q-btn">?</div>
+          <div class="badge-display" style="color:#F47B55;">
+            <svg width="11" height="15" viewBox="0 0 11 15" fill="none">
+              <path d="M5.5 0C5.5 0 9.5 4 9.5 8C9.5 11.5 7.8 14 5.5 14C3.2 14 1.5 11.5 1.5 8C1.5 5.5 3.5 3 4.5 2C4.5 2 4.5 4.5 5.5 5.5C5.5 5.5 8 3.5 5.5 0Z" fill="currentColor"/>
+              <ellipse cx="5.5" cy="9.5" rx="1.3" ry="2" fill="white" opacity="0.35"/>
+            </svg>
+            <span>7</span>
+          </div>
+        </div>
+        <div class="badge-context">Single-path flame with soft inner highlight.<br>Reads clearly at 11×15px.</div>
+      </div>
+    </div>
+
+    <!-- B: Star -->
+    <div class="opt">
+      <div class="opt-tag">Option B — Star</div>
+      <div class="opt-name">5-point star, outline</div>
+      <div class="badge-opt">
+        <div class="badge-in-header">
+          <div class="q-btn">?</div>
+          <div class="badge-display" style="color:#F47B55;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M7 1L8.5 5.2H13L9.5 7.8L10.9 12L7 9.5L3.1 12L4.5 7.8L1 5.2H5.5L7 1Z" fill="currentColor"/>
+            </svg>
+            <span>7</span>
+          </div>
+        </div>
+        <div class="badge-context">Universal symbol for achievement.<br>Filled — bold at small size.</div>
+      </div>
+    </div>
+
+    <!-- C: Lightning bolt -->
+    <div class="opt">
+      <div class="opt-tag">Option C — Lightning</div>
+      <div class="opt-name">Minimal bolt, sharp</div>
+      <div class="badge-opt">
+        <div class="badge-in-header">
+          <div class="q-btn">?</div>
+          <div class="badge-display" style="color:#F47B55;">
+            <svg width="9" height="15" viewBox="0 0 9 15" fill="none">
+              <path d="M7 0L1 8.5H4.5L2 15L9 5.5H5L7 0Z" fill="currentColor"/>
+            </svg>
+            <span>7</span>
+          </div>
+        </div>
+        <div class="badge-context">Speed/energy. Simple geometric shape.<br>Strong silhouette at small size.</div>
+      </div>
+    </div>
+
+    <!-- D: Diamond -->
+    <div class="opt">
+      <div class="opt-tag">Option D — Diamond</div>
+      <div class="opt-name">Rotated square, refined</div>
+      <div class="badge-opt">
+        <div class="badge-in-header">
+          <div class="q-btn">?</div>
+          <div class="badge-display" style="color:#F47B55;">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+              <path d="M6 1L11 7L6 13L1 7L6 1Z" fill="currentColor"/>
+            </svg>
+            <span>7</span>
+          </div>
+        </div>
+        <div class="badge-context">Geometric and editorial. Precious, refined.<br>Feels distinct from typical game UI.</div>
+      </div>
+    </div>
+
+    <!-- E: Circle with number only -->
+    <div class="opt">
+      <div class="opt-tag">Option E — Pill Count</div>
+      <div class="opt-name">Number in a pill, no icon</div>
+      <div class="badge-opt">
+        <div class="badge-in-header">
+          <div class="q-btn">?</div>
+          <div class="badge-display" style="color:#fff;">
+            <div style="background:#F47B55; border-radius:10px; padding:2px 7px; font-size:0.68rem; font-weight:700; font-family:'Plus Jakarta Sans',sans-serif; letter-spacing:0.04em;">7</div>
+          </div>
+        </div>
+        <div class="badge-context">No icon — just the number in an accent pill.<br>Ultra-minimal. Only works if the concept of "streak" is already understood.</div>
+      </div>
+    </div>
+
+    <!-- F: Chain links -->
+    <div class="opt">
+      <div class="opt-tag">Option F — Chain</div>
+      <div class="opt-name">Two interlocked rings</div>
+      <div class="badge-opt">
+        <div class="badge-in-header">
+          <div class="q-btn">?</div>
+          <div class="badge-display" style="color:#F47B55;">
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none">
+              <circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="2"/>
+              <circle cx="11" cy="5" r="4" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>7</span>
+          </div>
+        </div>
+        <div class="badge-context">Streak as an unbroken chain.<br>Conceptually strong — visually medium.</div>
+      </div>
+    </div>
+
+    <!-- G: Crown -->
+    <div class="opt">
+      <div class="opt-tag">Option G — Crown</div>
+      <div class="opt-name">Minimal 3-point crown</div>
+      <div class="badge-opt">
+        <div class="badge-in-header">
+          <div class="q-btn">?</div>
+          <div class="badge-display" style="color:#F47B55;">
+            <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+              <path d="M1 10H13M1 10L2.5 3L5.5 6.5L7 1L8.5 6.5L11.5 3L13 10" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+            </svg>
+            <span>7</span>
+          </div>
+        </div>
+        <div class="badge-context">Royalty / mastery connotation.<br>Clean outline style reads well at this size.</div>
+      </div>
+    </div>
+
+    <!-- H: Target/bullseye -->
+    <div class="opt">
+      <div class="opt-tag">Option H — Target</div>
+      <div class="opt-name">Concentric rings, precision</div>
+      <div class="badge-opt">
+        <div class="badge-in-header">
+          <div class="q-btn">?</div>
+          <div class="badge-display" style="color:#F47B55;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="7" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="7" cy="7" r="1.2" fill="currentColor"/>
+            </svg>
+            <span>7</span>
+          </div>
+        </div>
+        <div class="badge-context">Focus / consistency connotation.<br>Elegant outline. Less obvious meaning for a streak.</div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /§D -->
+
+<!-- ══════════════════════════════════════════════════════════
+     §E  ACHIEVEMENT RIBBONS — PROPER SHAPES
+══════════════════════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">§E</div>
+  <div class="sec-title">Achievement Ribbons — Proper Shapes</div>
+  <div class="sec-desc">Three structural treatments. Each shows: an earned state (accent color), a locked state (greyed out), and the full set of badges at once so you can see the rhythm of multiple tiles together. The goal is something that reads unmistakably as an award — not a UI chip.</div>
+
+  <!-- Framework I: Drop ribbon medal -->
+  <div class="opt full" style="margin-bottom:16px;">
+    <div class="opt-tag">Framework I — Drop Ribbon Medal</div>
+    <div class="opt-name">A circular medal face hanging from two ribbon strips. Classic physical award shape.</div>
+    <hr class="divider">
+
+    <!-- Earned examples -->
+    <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;margin-bottom:12px;">Earned</div>
+    <div class="ribbon-grid" style="margin-bottom:24px;">
+
+      <div class="ribbon-item">
+        <div class="medal-a">
+          <div class="ribbon-bar">
+            <div class="r-strip" style="background:#F47B55;"></div>
+            <div class="r-strip" style="background:#E06040;"></div>
+          </div>
+          <div class="medal-face" style="background:#FDF8EE; border-color:#F47B55; color:#F47B55;">
+            <div style="font-size:1rem;">★</div>
+            <div style="font-size:0.4rem; letter-spacing:0.06em; margin-top:1px;">Flawless</div>
+          </div>
+        </div>
+        <div class="ribbon-label">Flawless</div>
+      </div>
+
+      <div class="ribbon-item">
+        <div class="medal-a">
+          <div class="ribbon-bar">
+            <div class="r-strip" style="background:#A08FD4;"></div>
+            <div class="r-strip" style="background:#8070B8;"></div>
+          </div>
+          <div class="medal-face" style="background:#FDF8EE; border-color:#A08FD4; color:#A08FD4;">
+            <div style="font-size:0.9rem;">⚡</div>
+            <div style="font-size:0.4rem; letter-spacing:0.06em; margin-top:1px;">Lightning</div>
+          </div>
+        </div>
+        <div class="ribbon-label">Lightning</div>
+      </div>
+
+      <div class="ribbon-item">
+        <div class="medal-a">
+          <div class="ribbon-bar">
+            <div class="r-strip" style="background:#F4A0BC;"></div>
+            <div class="r-strip" style="background:#E080A0;"></div>
+          </div>
+          <div class="medal-face" style="background:#FDF8EE; border-color:#F4A0BC; color:#E080A0;">
+            <div style="font-size:0.9rem;">📅</div>
+            <div style="font-size:0.4rem; letter-spacing:0.06em; margin-top:1px;">Unbroken</div>
+          </div>
+        </div>
+        <div class="ribbon-label">Unbroken</div>
+      </div>
+
+      <div class="ribbon-item">
+        <div class="medal-a">
+          <div class="ribbon-bar">
+            <div class="r-strip" style="background:#A8C8B8;"></div>
+            <div class="r-strip" style="background:#80A898;"></div>
+          </div>
+          <div class="medal-face" style="background:#FDF8EE; border-color:#A8C8B8; color:#5A8870;">
+            <div style="font-size:0.9rem;">✏️</div>
+            <div style="font-size:0.4rem; letter-spacing:0.06em; margin-top:1px;">Wordsmith</div>
+          </div>
+        </div>
+        <div class="ribbon-label">Wordsmith</div>
+      </div>
+
+    </div>
+
+    <!-- Locked examples -->
+    <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;margin-bottom:12px;">Locked</div>
+    <div class="ribbon-grid">
+
+      <div class="ribbon-item">
+        <div class="medal-a" style="opacity:0.35; filter:grayscale(1);">
+          <div class="ribbon-bar">
+            <div class="r-strip" style="background:#888;"></div>
+            <div class="r-strip" style="background:#666;"></div>
+          </div>
+          <div class="medal-face" style="background:#f0f0f0; border-color:#aaa; color:#aaa;">
+            <div style="font-size:1rem;">★</div>
+            <div style="font-size:0.4rem;">Flawless</div>
+          </div>
+        </div>
+        <div class="ribbon-label" style="color:#ccc;">Locked</div>
+      </div>
+
+      <div class="ribbon-item">
+        <div class="medal-a" style="filter:grayscale(1) brightness(1.1);">
+          <div class="ribbon-bar">
+            <div class="r-strip" style="background:#ccc;"></div>
+            <div class="r-strip" style="background:#bbb;"></div>
+          </div>
+          <div class="medal-face" style="background:#f8f8f8; border-color:#ccc; color:#ccc; border-style:dashed;">
+            <div style="font-size:0.9rem;">?</div>
+            <div style="font-size:0.4rem;">???</div>
+          </div>
+        </div>
+        <div class="ribbon-label" style="color:#ccc;">Mystery</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Framework II: Horizontal banner -->
+  <div class="opt full" style="margin-bottom:16px;">
+    <div class="opt-tag">Framework II — Horizontal Banner</div>
+    <div class="opt-name">A wide banner with pointed/notched ends — like a pennant or award band. Reads clearly in a horizontal grid.</div>
+    <hr class="divider">
+
+    <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;margin-bottom:12px;">Earned</div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;">
+
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
+        <div class="medal-b" style="background:transparent;">
+          <div class="banner-notch-l" style="background:#F47B55; min-height:34px;"></div>
+          <div class="banner-body" style="background:#F47B55; color:#fff;">★ Flawless</div>
+          <div class="banner-notch-r" style="background:#F47B55; min-height:34px;"></div>
+        </div>
+        <div style="font-size:0.58rem;color:#aaa;padding-left:14px;">No wrong guesses</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
+        <div class="medal-b" style="background:transparent;">
+          <div class="banner-notch-l" style="background:#A08FD4; min-height:34px;"></div>
+          <div class="banner-body" style="background:#A08FD4; color:#fff;">⚡ Lightning</div>
+          <div class="banner-notch-r" style="background:#A08FD4; min-height:34px;"></div>
+        </div>
+        <div style="font-size:0.58rem;color:#aaa;padding-left:14px;">Under 90 seconds</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
+        <div class="medal-b" style="background:transparent;">
+          <div class="banner-notch-l" style="background:#F4A0BC; min-height:34px;"></div>
+          <div class="banner-body" style="background:#F4A0BC; color:#fff;">📅 Unbroken</div>
+          <div class="banner-notch-r" style="background:#F4A0BC; min-height:34px;"></div>
+        </div>
+        <div style="font-size:0.58rem;color:#aaa;padding-left:14px;">5-day streak</div>
+      </div>
+
+    </div>
+
+    <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;margin-bottom:12px;">Locked</div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;">
+
+      <div class="medal-b" style="background:transparent; opacity:0.4;">
+        <div class="banner-notch-l" style="background:#bbb; min-height:34px;"></div>
+        <div class="banner-body" style="background:#bbb; color:#fff;">★ Flawless</div>
+        <div class="banner-notch-r" style="background:#bbb; min-height:34px;"></div>
+      </div>
+
+      <div class="medal-b" style="background:transparent; opacity:0.4;">
+        <div class="banner-notch-l" style="background:#bbb; min-height:34px; clip-path:polygon(100% 0, 100% 100%, 0 50%);"></div>
+        <div class="banner-body" style="background:#bbb; color:#fff; border:none;">? ???</div>
+        <div class="banner-notch-r" style="background:#bbb; min-height:34px; clip-path:polygon(0 0, 0 100%, 100% 50%);"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Framework III: Rosette -->
+  <div class="opt full">
+    <div class="opt-tag">Framework III — Rosette / Award Badge</div>
+    <div class="opt-name">A circular rosette with radiating rays — like an official award seal or competition badge. Each achievement gets a unique ray color pair.</div>
+    <hr class="divider">
+
+    <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;margin-bottom:12px;">Earned</div>
+    <div class="ribbon-grid" style="margin-bottom:24px;">
+
+      <div class="ribbon-item">
+        <div class="rosette" style="--c1:#F47B55; --c2:#FAB090;">
+          <div class="rosette-rays" style="background:repeating-conic-gradient(from 0deg, #F47B55 0deg 12deg, #FAB090 12deg 24deg);"></div>
+          <div class="rosette-inner" style="color:#F47B55;">★<br>Flawless</div>
+        </div>
+        <div class="ribbon-label">Flawless</div>
+      </div>
+
+      <div class="ribbon-item">
+        <div class="rosette" style="">
+          <div class="rosette-rays" style="background:repeating-conic-gradient(from 0deg, #A08FD4 0deg 12deg, #C8B8F0 12deg 24deg);"></div>
+          <div class="rosette-inner" style="color:#7060A8;">⚡<br>Lightning</div>
+        </div>
+        <div class="ribbon-label">Lightning</div>
+      </div>
+
+      <div class="ribbon-item">
+        <div class="rosette">
+          <div class="rosette-rays" style="background:repeating-conic-gradient(from 0deg, #F4A0BC 0deg 12deg, #FAC8D8 12deg 24deg);"></div>
+          <div class="rosette-inner" style="color:#C06080;">📅<br>Unbroken</div>
+        </div>
+        <div class="ribbon-label">Unbroken</div>
+      </div>
+
+      <div class="ribbon-item">
+        <div class="rosette">
+          <div class="rosette-rays" style="background:repeating-conic-gradient(from 0deg, #A8C8B8 0deg 12deg, #C8E8D8 12deg 24deg);"></div>
+          <div class="rosette-inner" style="color:#507860;">✏️<br>Wordsmith</div>
+        </div>
+        <div class="ribbon-label">Wordsmith</div>
+      </div>
+
+    </div>
+
+    <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;margin-bottom:12px;">Locked</div>
+    <div class="ribbon-grid">
+      <div class="ribbon-item" style="opacity:0.3; filter:grayscale(1);">
+        <div class="rosette">
+          <div class="rosette-rays" style="background:repeating-conic-gradient(from 0deg, #aaa 0deg 12deg, #ccc 12deg 24deg);"></div>
+          <div class="rosette-inner" style="color:#888;">?</div>
+        </div>
+        <div class="ribbon-label">Locked</div>
+      </div>
+      <div class="ribbon-item" style="opacity:0.3; filter:grayscale(1);">
+        <div class="rosette">
+          <div class="rosette-rays" style="background:repeating-conic-gradient(from 0deg, #aaa 0deg 12deg, #ccc 12deg 24deg);"></div>
+          <div class="rosette-inner" style="color:#888;">?</div>
+        </div>
+        <div class="ribbon-label">Locked</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /§E -->
+
+<!-- ══════════════════════════════════════════════════════════
+     §F  CONFETTI — MULTI-COLOR PASTEL
+══════════════════════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">§F</div>
+  <div class="sec-title">Confetti — Multi-Color Pastel</div>
+  <div class="sec-desc">Option B from v1 (peach + black + cream) is shown as reference. Three new palettes emphasise multi-color pastels as requested. The simulation below each palette approximates what confetti.js would look like at those colors against a cream background.</div>
+  <div class="opt-row">
+
+    <!-- B-ref -->
+    <div class="opt">
+      <div class="opt-tag">Option B-ref — v1 Pick (reference)</div>
+      <div class="opt-name">Peach, black, cream — editorial mono</div>
+      <div class="conf-palette">
+        <div class="conf-dot" style="background:#F47B55;"></div>
+        <div class="conf-dot" style="background:#111111;"></div>
+        <div class="conf-dot" style="background:#FDF8EE;"></div>
+        <div class="conf-dot" style="background:#E8A080;"></div>
+      </div>
+      <div class="conf-sim" style="background:#FDF8EE; color:#F47B55;">
+        <div class="conf-piece" style="background:#F47B55; left:10%; top:15%; transform:rotate(20deg);"></div>
+        <div class="conf-piece" style="background:#111; left:25%; top:30%; transform:rotate(-15deg); width:5px; height:8px;"></div>
+        <div class="conf-piece" style="background:#E8A080; left:40%; top:20%; transform:rotate(45deg); border-radius:50%;"></div>
+        <div class="conf-piece" style="background:#F47B55; left:60%; top:35%; transform:rotate(-30deg);"></div>
+        <div class="conf-piece" style="background:#111; left:75%; top:10%; transform:rotate(10deg); width:4px; height:10px;"></div>
+        <div class="conf-piece" style="background:#FDF8EE; left:85%; top:40%; transform:rotate(60deg); border:1px solid #E8A080;"></div>
+        SOLVED
+      </div>
+      <div class="conf-desc">Restrained, editorial. Matches black-and-cream base palette. Less celebratory, more refined.</div>
+    </div>
+
+    <!-- New A: Pastel rainbow -->
+    <div class="opt">
+      <div class="opt-tag">Option C — Pastel Rainbow</div>
+      <div class="opt-name">6-color pastel spread, airy</div>
+      <div class="conf-palette">
+        <div class="conf-dot" style="background:#F4A0BC;"></div>
+        <div class="conf-dot" style="background:#C4B0E8;"></div>
+        <div class="conf-dot" style="background:#A4C8E4;"></div>
+        <div class="conf-dot" style="background:#A8D8B8;"></div>
+        <div class="conf-dot" style="background:#F7E0A0;"></div>
+        <div class="conf-dot" style="background:#F7B090;"></div>
+      </div>
+      <div class="conf-sim" style="background:#FDF8EE; color:#888;">
+        <div class="conf-piece" style="background:#F4A0BC; left:8%; top:12%; transform:rotate(20deg);"></div>
+        <div class="conf-piece" style="background:#C4B0E8; left:22%; top:35%; transform:rotate(-25deg);"></div>
+        <div class="conf-piece" style="background:#A4C8E4; left:38%; top:18%; transform:rotate(40deg); border-radius:50%;"></div>
+        <div class="conf-piece" style="background:#A8D8B8; left:55%; top:30%; transform:rotate(-10deg);"></div>
+        <div class="conf-piece" style="background:#F7E0A0; left:70%; top:14%; transform:rotate(55deg);"></div>
+        <div class="conf-piece" style="background:#F7B090; left:84%; top:38%; transform:rotate(-40deg); border-radius:50%;"></div>
+        <div class="conf-piece" style="background:#F4A0BC; left:50%; top:48%; transform:rotate(15deg); width:5px;"></div>
+        SOLVED
+      </div>
+      <div class="conf-desc">Full spectrum pastels. Feels celebratory and soft — like a garden party. Works with any accent color.</div>
+    </div>
+
+    <!-- New B: Pastel warm -->
+    <div class="opt">
+      <div class="opt-tag">Option D — Pastel Warm</div>
+      <div class="opt-name">Peach, coral, gold, blush — warm cluster</div>
+      <div class="conf-palette">
+        <div class="conf-dot" style="background:#F7B090;"></div>
+        <div class="conf-dot" style="background:#F4A0BC;"></div>
+        <div class="conf-dot" style="background:#F7E0A0;"></div>
+        <div class="conf-dot" style="background:#FAD4DF;"></div>
+        <div class="conf-dot" style="background:#F0C890;"></div>
+      </div>
+      <div class="conf-sim" style="background:#FDF8EE; color:#C08060;">
+        <div class="conf-piece" style="background:#F7B090; left:10%; top:20%; transform:rotate(15deg);"></div>
+        <div class="conf-piece" style="background:#F4A0BC; left:28%; top:10%; transform:rotate(-20deg); border-radius:50%;"></div>
+        <div class="conf-piece" style="background:#F7E0A0; left:45%; top:32%; transform:rotate(35deg);"></div>
+        <div class="conf-piece" style="background:#FAD4DF; left:62%; top:15%; transform:rotate(-45deg);"></div>
+        <div class="conf-piece" style="background:#F0C890; left:78%; top:28%; transform:rotate(50deg); border-radius:50%;"></div>
+        <div class="conf-piece" style="background:#F7B090; left:88%; top:42%; transform:rotate(-5deg); width:5px;"></div>
+        SOLVED
+      </div>
+      <div class="conf-desc">All warm tones — cohesive and cosy. Feels harmonious with peach/apricot/rose accent colors.</div>
+    </div>
+
+    <!-- New C: Pastel cool -->
+    <div class="opt">
+      <div class="opt-tag">Option E — Pastel Cool</div>
+      <div class="opt-name">Lavender, sky, mint — cool cluster</div>
+      <div class="conf-palette">
+        <div class="conf-dot" style="background:#C4B0E8;"></div>
+        <div class="conf-dot" style="background:#A4C8E4;"></div>
+        <div class="conf-dot" style="background:#A8D8B8;"></div>
+        <div class="conf-dot" style="background:#E2D9F3;"></div>
+        <div class="conf-dot" style="background:#B8D8F0;"></div>
+      </div>
+      <div class="conf-sim" style="background:#FDF8EE; color:#8090B0;">
+        <div class="conf-piece" style="background:#C4B0E8; left:12%; top:18%; transform:rotate(22deg);"></div>
+        <div class="conf-piece" style="background:#A4C8E4; left:30%; top:38%; transform:rotate(-18deg); border-radius:50%;"></div>
+        <div class="conf-piece" style="background:#A8D8B8; left:48%; top:12%; transform:rotate(42deg);"></div>
+        <div class="conf-piece" style="background:#E2D9F3; left:65%; top:34%; transform:rotate(-32deg);"></div>
+        <div class="conf-piece" style="background:#B8D8F0; left:80%; top:20%; transform:rotate(55deg); border-radius:50%;"></div>
+        <div class="conf-piece" style="background:#C4B0E8; left:90%; top:44%; transform:rotate(-8deg); width:5px;"></div>
+        SOLVED
+      </div>
+      <div class="conf-desc">Calm and airy. Works best if the accent color is also cool (lavender, sky). May feel muted against a warm accent.</div>
+    </div>
+
+  </div>
+</div><!-- /§F -->
+
+<!-- ══════════════════════════════════════════════════════════
+     §G  CONFIRMED PICKS — FOR REFERENCE
+══════════════════════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">§G</div>
+  <div class="sec-title">Confirmed Picks — Visual Reference</div>
+  <div class="sec-desc">These three decisions were made in v1 and are shown here so you can verify they still work as the rest of the system takes shape.</div>
+  <div class="confirmed-row">
+
+    <!-- Cursor D -->
+    <div class="conf-item">
+      <div class="conf-item-label">§5 Cursor — Option D (accent underline)</div>
+      <div class="conf-item-title">Active slot has accent-colored bottom border</div>
+      <div style="display:flex;gap:3px;align-items:flex-end;margin-bottom:8px;">
+        <div class="cursor-default-slot">C</div>
+        <div class="cursor-d-slot">L</div>
+        <div class="cursor-default-slot">O</div>
+        <div class="cursor-default-slot">S</div>
+        <div class="cursor-default-slot">E</div>
+        <div class="cursor-default-slot">T</div>
+      </div>
+      <div style="font-size:0.65rem;color:#888;">Second slot is active. Underline color is whatever §B accent color is chosen.</div>
+    </div>
+
+    <!-- Timer pill -->
+    <div class="conf-item">
+      <div class="conf-item-label">§7 Timer Toggle — Option C (text pill)</div>
+      <div class="conf-item-title">SHOW / HIDE pill beside the timer display</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:0.75rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;">1:42</span>
+          <div class="timer-pill-hide">HIDE</div>
+        </div>
+        <div style="color:#ccc;font-size:0.7rem;">→</div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:0.75rem;font-weight:700;color:transparent;user-select:none;font-family:'Plus Jakarta Sans',sans-serif;">1:42</span>
+          <div class="timer-pill-show">SHOW</div>
+        </div>
+      </div>
+      <div style="font-size:0.65rem;color:#888;">Left: timer visible, right: timer hidden. Pill border changes to match timer visibility state.</div>
+    </div>
+
+    <!-- Completion card C -->
+    <div class="conf-item" style="min-width:280px;">
+      <div class="conf-item-label">§10 Completion Card — Option C (achievement callout, no checkmark)</div>
+      <div class="conf-item-title">Time hero with one unlocked achievement</div>
+      <div style="background:#FEFCF3; border-radius:8px; padding:12px 14px; border:1px solid #e8e0d0;">
+        <div style="font-size:0.52rem;text-transform:uppercase;letter-spacing:0.12em;color:#aaa;margin-bottom:4px; font-family:'Plus Jakarta Sans',sans-serif;">Around the House</div>
+        <div style="font-size:1.6rem;font-weight:800;letter-spacing:0.04em; font-family:'Plus Jakarta Sans',sans-serif;">2:14</div>
+        <div style="font-size:0.6rem;color:#888;margin-bottom:10px; font-family:'Plus Jakarta Sans',sans-serif;">Hard Mode</div>
+        <div style="background:#FAF0E8;border-radius:5px;padding:7px 10px;border-left:3px solid #F47B55;margin-bottom:10px;">
+          <div style="font-size:0.5rem;text-transform:uppercase;letter-spacing:0.1em;color:#aaa;margin-bottom:2px;">Achievement unlocked</div>
+          <div style="font-size:0.68rem;font-weight:700; font-family:'Plus Jakarta Sans',sans-serif;">★ Flawless</div>
+          <div style="font-size:0.58rem;color:#888; font-family:'Plus Jakarta Sans',sans-serif;">No wrong guesses</div>
+        </div>
+        <div style="background:#111;color:#fff;text-align:center;padding:7px;border-radius:3px;font-size:0.6rem;font-weight:700;letter-spacing:0.14em; font-family:'Plus Jakarta Sans',sans-serif;">SHARE</div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /§G -->
+
+<!-- Footer -->
+<div style="border-top:1.5px solid #bbb; padding-top:20px; font-size:0.72rem; color:#888; line-height:1.9;">
+  <strong style="color:#333;">v2 decisions needed:</strong>
+  §A font (A–H) · §B accent color (family + shade) · §C background (A–D) · §D streak icon (A–H) · §E achievement shape (I, II, or III) · §F confetti (B-ref, C, D, or E)
+  <br>
+  §G cursor / timer pill / completion card are confirmed but flag if something looks wrong in this context.
+</div>
+
+</body>
+</html>

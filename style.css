@@ -239,7 +239,7 @@ html, body {
 .modal-card .modal-close  { color: #7A6E64; }
 .modal-card .how-body p   { color: #C4BAB0; }
 .modal-card .how-example  { background: rgba(255,255,255,0.07); }
-.modal-card .how-example-prompt  { color: #6E635A; }
+.modal-card .how-example-prompt  { color: #9A9088; }
 .modal-card .how-example-caption { color: #6E635A; }
 .modal-card .how-slot     { border-bottom-color: #C4BAB0; color: #EDE8DF; }
 .modal-card .ach-count    { color: #7A6E64; }
@@ -269,7 +269,7 @@ html, body {
 }
 
 .how-title-logo .logo-circle {
-  border-width: 1.5px;
+  border-width: 2.5px;
 }
 
 /* ── How to Play example panel ─────────────────────────────────────────────── */
@@ -678,7 +678,7 @@ header {
   cursor: default;
 }
 .word-row.solved .slot.circled::after {
-  border-color: var(--grey-lt) !important;
+  border-color: var(--accent-solved) !important;
 }
 .word-row.solved .prompt {
   color: var(--grey-lt);
@@ -700,6 +700,7 @@ header {
   flex-shrink: 0;
   padding: 10px 0 20px;
   border-top: 1px solid var(--grey-lt);
+  position: relative;
 }
 
 #bank {
@@ -739,6 +740,11 @@ header {
   font-size: 1.15rem;
 }
 
+/* E tile in post-solve bank: black border like the logo circle (square, not round) */
+.tile-juggle-e {
+  border-color: var(--black);
+}
+
 /* ─── Submit button ──────────────────────────────────────────────────────────── */
 
 #submit-btn {
@@ -760,6 +766,44 @@ header {
   background: var(--black);
   color: var(--white);
   cursor: pointer;
+}
+
+/* Hint button — floats above the bank border; absolutely positioned so it never
+   affects layout and can't cause a scrollbar in the board area above it. */
+#hint-btn {
+  position: absolute;
+  top: -34px;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  text-align: center;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.72rem;
+  color: var(--grey-dk);
+  cursor: pointer;
+  padding: 8px 0;
+  text-decoration: underline dotted;
+  text-decoration-color: var(--grey-md);
+  text-underline-offset: 2px;
+}
+
+/* View Results button (shown after puzzle solved) */
+#view-results-btn {
+  display: block;
+  width: 100%;
+  padding: 13px 0;
+  background: none;
+  color: var(--grey-dk);
+  font-family: inherit;
+  font-size: 0.83rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  border: 1.5px solid var(--grey-md);
+  border-radius: var(--radius);
+  cursor: pointer;
+  margin-top: 8px;
 }
 
 /* ─── Shake animation ────────────────────────────────────────────────────────── */
@@ -990,7 +1034,7 @@ header {
   text-align: center;
 }
 
-.ach-label-locked { color: #4A4440; }
+.ach-label-locked { color: #7A706A; }
 
 .ach-desc {
   font-size: 0.58rem;
@@ -999,7 +1043,7 @@ header {
   line-height: 1.4;
 }
 
-.ach-desc-locked { color: #4A4440; }
+.ach-desc-locked { color: #7A706A; }
 
 /* Achievement callout in completion card */
 #completion-achievements {
@@ -1041,7 +1085,7 @@ header {
 
 #ach-note {
   font-size: 0.62rem;
-  color: #4A4440;
+  color: #7A706A;
   text-align: center;
   padding-top: 16px;
   font-style: italic;

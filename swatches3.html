@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JUMBLE — Swatches v3 · Streak Badge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #E4E4E0;
+      font-family: 'Inter', sans-serif;
+      color: #111;
+      padding: 48px 32px 100px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ── Page header ── */
+    .ph { margin-bottom: 56px; border-bottom: 3px solid #111; padding-bottom: 20px; }
+    .ph-eyebrow { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #888; margin-bottom: 8px; }
+    .ph-title { font-family: 'Figtree', sans-serif; font-size: 1.9rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .ph-body { font-size: 0.78rem; color: #555; line-height: 1.8; max-width: 600px; }
+
+    /* Confirmed picks banner */
+    .confirmed-banner {
+      background: #111; color: #fff;
+      border-radius: 8px; padding: 16px 20px;
+      margin-bottom: 48px;
+      font-size: 0.72rem; line-height: 2;
+    }
+    .confirmed-banner strong { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.5; display: block; margin-bottom: 4px; }
+    .cb-row { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+    .cb-item { display: flex; align-items: baseline; gap: 6px; }
+    .cb-key { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.5; }
+    .cb-val { font-weight: 600; }
+
+    /* ── Section ── */
+    .sec { margin-bottom: 64px; }
+    .sec-eyebrow { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #999; padding-top: 14px; border-top: 1.5px solid #bbb; margin-bottom: 4px; }
+    .sec-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+    .sec-desc { font-size: 0.77rem; color: #666; line-height: 1.75; margin-bottom: 26px; max-width: 600px; }
+
+    /* ── Grid ── */
+    .grid { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; }
+    .card { background: #fff; border-radius: 10px; padding: 18px 16px 14px; flex: 1; min-width: 200px; max-width: 280px; }
+    .card-tag { font-size: 0.56rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #aaa; margin-bottom: 4px; }
+    .card-name { font-size: 0.73rem; font-weight: 600; color: #333; margin-bottom: 14px; line-height: 1.4; }
+    .card-note { font-size: 0.62rem; color: #999; margin-top: 10px; line-height: 1.6; font-style: italic; }
+
+    /* ── Simulated header ── */
+    .sim-header {
+      background: #FEFCF3;
+      border-radius: 7px;
+      padding: 10px 12px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      margin-bottom: 10px;
+      border: 1px solid #ece8e0;
+    }
+    .sim-left { display: flex; align-items: center; gap: 6px; }
+    .sim-q {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 1.5px solid #ccc;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; font-weight: 700; color: #888;
+      font-family: 'Figtree', sans-serif;
+    }
+    .sim-logo {
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.9rem; font-weight: 800;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      display: inline-flex; align-items: center; color: #111;
+    }
+    .sim-logo-circle {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 1.1em; height: 1.1em;
+      border: 2px solid #111; border-radius: 50%;
+      flex-shrink: 0; line-height: 1;
+    }
+    .sim-timer {
+      display: flex; align-items: center; justify-content: flex-end; gap: 6px;
+      font-size: 0.68rem; font-weight: 700; font-family: 'Figtree', sans-serif;
+    }
+    .sim-pill {
+      font-size: 0.5rem; font-weight: 700; letter-spacing: 0.1em;
+      padding: 2px 7px; border: 1.2px solid #bbb; border-radius: 20px; color: #aaa;
+    }
+
+    /* ── The game board below header ── */
+    .sim-board {
+      background: #FEFCF3;
+      border-radius: 0 0 7px 7px;
+      padding: 8px 12px 10px;
+      border: 1px solid #ece8e0;
+      border-top: none;
+    }
+    .sim-prompt {
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.52rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: #bbb; text-align: center; margin-bottom: 4px;
+    }
+    .sim-slots { display: flex; gap: 3px; justify-content: center; margin-bottom: 8px; }
+    .sim-slot {
+      width: 24px; height: 29px; border-bottom: 1.8px solid #ccc;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Figtree', sans-serif; font-size: 0.7rem; font-weight: 700;
+      position: relative;
+    }
+    .sim-slot.active { border-bottom-color: #F4A0BC; border-bottom-width: 2.5px; }
+    .sim-slot.confirmed { border-bottom-color: #e8e8e8; color: #ccc; }
+    .sim-slot.circled::after { content:''; position:absolute; inset:2px 0 4px; border:1.5px solid #111; border-radius:50%; pointer-events:none; }
+
+    /* ══════════════════════════
+       BADGE CONCEPTS
+    ══════════════════════════ */
+
+    /* — Day dots — */
+    .day-dots { display: flex; align-items: center; gap: 3px; }
+    .day-dot { width: 7px; height: 7px; border-radius: 2px; }
+    .day-dot.filled { background: currentColor; }
+    .day-dot.empty { background: transparent; border: 1.5px solid currentColor; opacity: 0.3; }
+
+    /* — Ascending bars — */
+    .asc-bars { display: flex; align-items: flex-end; gap: 2px; }
+    .a-bar { width: 4px; border-radius: 1px 1px 0 0; }
+
+    /* — Dot trail — */
+    .dot-trail { display: flex; align-items: center; gap: 0; }
+    .dt-dot { width: 5px; height: 5px; border-radius: 50%; }
+    .dt-line { width: 5px; height: 1.5px; }
+
+    /* — Calendar grid — */
+    .cal-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+    .cal-cell { width: 6px; height: 6px; border-radius: 1px; }
+
+    /* — Number with unit — */
+    .streak-num { font-family: 'Figtree', sans-serif; font-weight: 800; }
+    .streak-unit { font-family: 'Figtree', sans-serif; font-weight: 500; }
+
+    /* — Spark / burst — */
+    .spark { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+
+    hr.div { border: none; border-top: 1px solid #eee; margin: 12px 0; }
+
+    .multi-count { display: flex; gap: 20px; flex-wrap: wrap; }
+    .count-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .count-label { font-size: 0.52rem; color: #bbb; }
+
+  </style>
+</head>
+<body>
+
+<div class="ph">
+  <div class="ph-eyebrow">Jumble — Design System · v3</div>
+  <div class="ph-title">Streak Badge — Concept Round</div>
+  <div class="ph-body">Focused entirely on the streak badge. Eight new directions, each grounded in a different visual metaphor for "consecutive days played." All shown at actual size in a simulated header. The game's confirmed accent color (Pastel Rose #F4A0BC) and font (Figtree) are used throughout.</div>
+</div>
+
+<!-- Confirmed picks -->
+<div class="confirmed-banner">
+  <strong>Confirmed decisions so far</strong>
+  <div class="cb-row">
+    <div class="cb-item"><span class="cb-key">Font</span><span class="cb-val">Figtree</span></div>
+    <div class="cb-item"><span class="cb-key">Accent</span><span class="cb-val">#F4A0BC Pastel Rose</span></div>
+    <div class="cb-item"><span class="cb-key">Background</span><span class="cb-val">#FEFCF3 Classic Cream</span></div>
+    <div class="cb-item"><span class="cb-key">Achievement shape</span><span class="cb-val">Framework I (drop ribbon), periwinkle replacing orange</span></div>
+    <div class="cb-item"><span class="cb-key">Confetti</span><span class="cb-val">Pastel Rainbow (Option C)</span></div>
+    <div class="cb-item"><span class="cb-key">Prompt style</span><span class="cb-val">Dots between letters — T · E · S · O · L · C</span></div>
+    <div class="cb-item"><span class="cb-key">Streak badge</span><span class="cb-val">Still deciding →</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     §D  STREAK BADGE — CONCEPT ROUND
+══════════════════════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">§D — Round 3</div>
+  <div class="sec-title">Streak Badge</div>
+  <div class="sec-desc">The constraint: it must sit comfortably to the right of the ? button in the header, communicate "days in a row" at a glance, and look like it belongs to the same visual language as the rest of the game. Eight metaphors — each shown at 3 streak lengths (3, 7, and 21 days) so you can see how the concept scales.</div>
+
+  <div class="grid">
+
+    <!-- A: Day dots — row of filled squares -->
+    <div class="card">
+      <div class="card-tag">Option A — Day Dots</div>
+      <div class="card-name">Filled squares, one per day (last 5 shown)</div>
+
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <!-- badge -->
+          <div style="display:flex;align-items:center;gap:4px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;">
+            <div class="day-dots">
+              <div class="day-dot empty"></div>
+              <div class="day-dot empty"></div>
+              <div class="day-dot filled"></div>
+              <div class="day-dot filled"></div>
+              <div class="day-dot filled"></div>
+            </div>
+            <span>3</span>
+          </div>
+        </div>
+        <div class="sim-logo">JUMBL<span class="sim-logo-circle">E</span></div>
+        <div class="sim-timer"><span>1:42</span><span class="sim-pill">HIDE</span></div>
+      </div>
+
+      <div class="multi-count">
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:4px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;">
+            <div class="day-dots"><div class="day-dot empty"></div><div class="day-dot empty"></div><div class="day-dot filled"></div><div class="day-dot filled"></div><div class="day-dot filled"></div></div><span>3</span></div>
+          <div class="count-label">3 days</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:4px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;">
+            <div class="day-dots"><div class="day-dot filled"></div><div class="day-dot filled"></div><div class="day-dot filled"></div><div class="day-dot filled"></div><div class="day-dot filled"></div></div><span>7</span></div>
+          <div class="count-label">7 days</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:4px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;">
+            <div class="day-dots"><div class="day-dot filled"></div><div class="day-dot filled"></div><div class="day-dot filled"></div><div class="day-dot filled"></div><div class="day-dot filled"></div></div><span>21</span></div>
+          <div class="count-label">21 days</div>
+        </div>
+      </div>
+
+      <div class="card-note">Dots = most recent 5 days. Empty dot = day not yet played. Once streak ≥ 5, all dots fill and only the number grows. Clear metaphor. Could feel slightly dashboard-like.</div>
+    </div>
+
+    <!-- B: Ascending bars -->
+    <div class="card">
+      <div class="card-tag">Option B — Ascending Bars</div>
+      <div class="card-name">3 bars, each taller than the last — growth / momentum</div>
+
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <div style="display:flex;align-items:center;gap:4px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;">
+            <div class="asc-bars" style="color:#F4A0BC;">
+              <div class="a-bar" style="height:5px;background:#F4A0BC;opacity:0.4;"></div>
+              <div class="a-bar" style="height:8px;background:#F4A0BC;opacity:0.7;"></div>
+              <div class="a-bar" style="height:12px;background:#F4A0BC;"></div>
+            </div>
+            <span>3</span>
+          </div>
+        </div>
+        <div class="sim-logo">JUMBL<span class="sim-logo-circle">E</span></div>
+        <div class="sim-timer"><span>1:42</span><span class="sim-pill">HIDE</span></div>
+      </div>
+
+      <div class="multi-count">
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:4px;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;color:#F4A0BC;">
+            <div class="asc-bars"><div class="a-bar" style="height:5px;background:#F4A0BC;opacity:0.4;"></div><div class="a-bar" style="height:8px;background:#F4A0BC;opacity:0.7;"></div><div class="a-bar" style="height:12px;background:#F4A0BC;"></div></div><span>3</span></div>
+          <div class="count-label">3 days</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:4px;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;color:#F4A0BC;">
+            <div class="asc-bars"><div class="a-bar" style="height:5px;background:#F4A0BC;opacity:0.4;"></div><div class="a-bar" style="height:8px;background:#F4A0BC;opacity:0.7;"></div><div class="a-bar" style="height:12px;background:#F4A0BC;"></div></div><span>7</span></div>
+          <div class="count-label">7 days</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:4px;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;color:#F4A0BC;">
+            <div class="asc-bars"><div class="a-bar" style="height:5px;background:#F4A0BC;opacity:0.4;"></div><div class="a-bar" style="height:8px;background:#F4A0BC;opacity:0.7;"></div><div class="a-bar" style="height:12px;background:#F4A0BC;"></div></div><span>21</span></div>
+          <div class="count-label">21 days</div>
+        </div>
+      </div>
+
+      <div class="card-note">Bars are always the same 3 heights — static icon. Communicates "upward trajectory / building." Clean and minimal. The bar shape is familiar from music players and data viz.</div>
+    </div>
+
+    <!-- C: Dot trail / timeline -->
+    <div class="card">
+      <div class="card-tag">Option C — Dot Trail</div>
+      <div class="card-name">Connected dots on a line — days as a timeline</div>
+
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <div style="display:flex;align-items:center;gap:4px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;">
+            <div class="dot-trail">
+              <div class="dt-dot" style="background:#F4A0BC; opacity:0.3;"></div>
+              <div class="dt-line" style="background:#F4A0BC; opacity:0.3;"></div>
+              <div class="dt-dot" style="background:#F4A0BC; opacity:0.6;"></div>
+              <div class="dt-line" style="background:#F4A0BC; opacity:0.6;"></div>
+              <div class="dt-dot" style="background:#F4A0BC;"></div>
+            </div>
+            <span>3</span>
+          </div>
+        </div>
+        <div class="sim-logo">JUMBL<span class="sim-logo-circle">E</span></div>
+        <div class="sim-timer"><span>1:42</span><span class="sim-pill">HIDE</span></div>
+      </div>
+
+      <div class="multi-count">
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:4px;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;color:#F4A0BC;">
+            <div class="dot-trail"><div class="dt-dot" style="background:#F4A0BC;opacity:0.3;"></div><div class="dt-line" style="background:#F4A0BC;opacity:0.3;"></div><div class="dt-dot" style="background:#F4A0BC;opacity:0.6;"></div><div class="dt-line" style="background:#F4A0BC;opacity:0.6;"></div><div class="dt-dot" style="background:#F4A0BC;"></div></div><span>3</span></div>
+          <div class="count-label">3 days</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:4px;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;color:#F4A0BC;">
+            <div class="dot-trail"><div class="dt-dot" style="background:#F4A0BC;opacity:0.3;"></div><div class="dt-line" style="background:#F4A0BC;opacity:0.3;"></div><div class="dt-dot" style="background:#F4A0BC;opacity:0.6;"></div><div class="dt-line" style="background:#F4A0BC;opacity:0.6;"></div><div class="dt-dot" style="background:#F4A0BC;"></div></div><span>7</span></div>
+          <div class="count-label">7 days</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:4px;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;color:#F4A0BC;">
+            <div class="dot-trail"><div class="dt-dot" style="background:#F4A0BC;opacity:0.3;"></div><div class="dt-line" style="background:#F4A0BC;opacity:0.3;"></div><div class="dt-dot" style="background:#F4A0BC;opacity:0.6;"></div><div class="dt-line" style="background:#F4A0BC;opacity:0.6;"></div><div class="dt-dot" style="background:#F4A0BC;"></div></div><span>21</span></div>
+          <div class="count-label">21 days</div>
+        </div>
+      </div>
+
+      <div class="card-note">The three dots fade in from left (oldest) to right (today). Most recent dot is full opacity. Connective lines emphasise continuity. Like a minimal journey or timeline.</div>
+    </div>
+
+    <!-- D: Calendar mini-grid -->
+    <div class="card">
+      <div class="card-tag">Option D — Calendar Grid</div>
+      <div class="card-name">7-cell week grid — shows exactly which days you played</div>
+
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <div style="display:flex;align-items:center;gap:4px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;">
+            <div style="display:flex;flex-direction:column;gap:1.5px;">
+              <!-- row 1: week labels -->
+              <div style="display:flex;gap:2px;">
+                <div style="width:6px;height:2px;background:#F4A0BC;opacity:0.2;border-radius:1px;"></div>
+                <div style="width:6px;height:2px;background:#F4A0BC;opacity:0.2;border-radius:1px;"></div>
+                <div style="width:6px;height:2px;background:#F4A0BC;opacity:0.2;border-radius:1px;"></div>
+                <div style="width:6px;height:2px;background:#F4A0BC;opacity:0.2;border-radius:1px;"></div>
+              </div>
+              <!-- row 2 -->
+              <div style="display:flex;gap:2px;">
+                <div style="width:6px;height:6px;border-radius:1px;background:#F4A0BC;opacity:0.15;"></div>
+                <div style="width:6px;height:6px;border-radius:1px;background:#F4A0BC;opacity:0.15;"></div>
+                <div style="width:6px;height:6px;border-radius:1px;background:#F4A0BC;opacity:0.15;"></div>
+                <div style="width:6px;height:6px;border-radius:1px;background:#F4A0BC;opacity:0.15;"></div>
+              </div>
+              <!-- row 3 -->
+              <div style="display:flex;gap:2px;">
+                <div style="width:6px;height:6px;border-radius:1px;background:#F4A0BC;opacity:0.15;"></div>
+                <div style="width:6px;height:6px;border-radius:1px;background:#F4A0BC;"></div>
+                <div style="width:6px;height:6px;border-radius:1px;background:#F4A0BC;"></div>
+                <div style="width:6px;height:6px;border-radius:1px;background:#F4A0BC;"></div>
+              </div>
+            </div>
+            <span>3</span>
+          </div>
+        </div>
+        <div class="sim-logo">JUMBL<span class="sim-logo-circle">E</span></div>
+        <div class="sim-timer"><span>1:42</span><span class="sim-pill">HIDE</span></div>
+      </div>
+
+      <div class="card-note">A 4×2 mini grid where each cell = one day, filled = played. Most recent days at bottom-right. Like a GitHub contribution graph, but 8 cells. Very literal — "days" is unmistakable. Gets complex to maintain state for display. May read as noise at small sizes.</div>
+    </div>
+
+    <!-- E: "N days" typographic -->
+    <div class="card">
+      <div class="card-tag">Option E — Typographic Counter</div>
+      <div class="card-name">Stacked number + "day streak" in tiny caps</div>
+
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1;color:#F4A0BC;font-family:'Figtree',sans-serif;">
+            <div style="font-size:0.88rem;font-weight:800;letter-spacing:-0.01em;">7</div>
+            <div style="font-size:0.38rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;opacity:0.7;">day streak</div>
+          </div>
+        </div>
+        <div class="sim-logo">JUMBL<span class="sim-logo-circle">E</span></div>
+        <div class="sim-timer"><span>1:42</span><span class="sim-pill">HIDE</span></div>
+      </div>
+
+      <div class="multi-count">
+        <div class="count-item">
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1;color:#F4A0BC;font-family:'Figtree',sans-serif;">
+            <div style="font-size:0.88rem;font-weight:800;">3</div><div style="font-size:0.38rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;opacity:0.7;">day streak</div></div>
+          <div class="count-label">3 days</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1;color:#F4A0BC;font-family:'Figtree',sans-serif;">
+            <div style="font-size:0.88rem;font-weight:800;">7</div><div style="font-size:0.38rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;opacity:0.7;">day streak</div></div>
+          <div class="count-label">7 days</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1;color:#F4A0BC;font-family:'Figtree',sans-serif;">
+            <div style="font-size:0.88rem;font-weight:800;">21</div><div style="font-size:0.38rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;opacity:0.7;">day streak</div></div>
+          <div class="count-label">21 days</div>
+        </div>
+      </div>
+
+      <div class="card-note">No icon. Just the number — large and bold — with "day streak" in small caps below it. Completely unambiguous meaning. Minimal and typographic in the spirit of the game. The downside is it takes slightly more vertical space.</div>
+    </div>
+
+    <!-- F: Arc / partial ring -->
+    <div class="card">
+      <div class="card-tag">Option F — Arc Progress</div>
+      <div class="card-name">Partial ring, fills with streak — like a weekly goal</div>
+
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <!-- 3/7 arc = ~154° filled -->
+          <div style="display:flex;align-items:center;gap:4px;font-family:'Figtree',sans-serif;">
+            <svg width="18" height="18" viewBox="0 0 18 18">
+              <!-- track -->
+              <circle cx="9" cy="9" r="7" fill="none" stroke="#F4A0BC" stroke-width="2.5" stroke-dasharray="44" stroke-dashoffset="0" opacity="0.15"/>
+              <!-- fill: 7/7 = full circle ≈ 44; 3/7 ≈ 18.8 -->
+              <circle cx="9" cy="9" r="7" fill="none" stroke="#F4A0BC" stroke-width="2.5" stroke-dasharray="44" stroke-dashoffset="25" stroke-linecap="round" transform="rotate(-90 9 9)"/>
+            </svg>
+            <span style="font-size:0.72rem;font-weight:700;color:#F4A0BC;">3</span>
+          </div>
+        </div>
+        <div class="sim-logo">JUMBL<span class="sim-logo-circle">E</span></div>
+        <div class="sim-timer"><span>1:42</span><span class="sim-pill">HIDE</span></div>
+      </div>
+
+      <div class="multi-count">
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:3px;">
+            <svg width="16" height="16" viewBox="0 0 18 18"><circle cx="9" cy="9" r="7" fill="none" stroke="#F4A0BC" stroke-width="2.5" stroke-dasharray="44" stroke-dashoffset="0" opacity="0.15"/><circle cx="9" cy="9" r="7" fill="none" stroke="#F4A0BC" stroke-width="2.5" stroke-dasharray="44" stroke-dashoffset="25" stroke-linecap="round" transform="rotate(-90 9 9)"/></svg>
+            <span style="font-size:0.7rem;font-weight:700;color:#F4A0BC;font-family:'Figtree',sans-serif;">3</span></div>
+          <div class="count-label">3 days</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:3px;">
+            <svg width="16" height="16" viewBox="0 0 18 18"><circle cx="9" cy="9" r="7" fill="none" stroke="#F4A0BC" stroke-width="2.5" stroke-dasharray="44" stroke-dashoffset="0" opacity="0.15"/><circle cx="9" cy="9" r="7" fill="none" stroke="#F4A0BC" stroke-width="2.5" stroke-dasharray="44" stroke-dashoffset="0.5" stroke-linecap="round" transform="rotate(-90 9 9)"/></svg>
+            <span style="font-size:0.7rem;font-weight:700;color:#F4A0BC;font-family:'Figtree',sans-serif;">7</span></div>
+          <div class="count-label">7 days (full)</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:3px;">
+            <svg width="16" height="16" viewBox="0 0 18 18"><circle cx="9" cy="9" r="7" fill="none" stroke="#F4A0BC" stroke-width="2.5" stroke-dasharray="44" stroke-dashoffset="0" opacity="0.15"/><circle cx="9" cy="9" r="7" fill="none" stroke="#F4A0BC" stroke-width="2.5" stroke-dasharray="44" stroke-dashoffset="0.5" stroke-linecap="round" transform="rotate(-90 9 9)"/></svg>
+            <span style="font-size:0.7rem;font-weight:700;color:#F4A0BC;font-family:'Figtree',sans-serif;">21</span></div>
+          <div class="count-label">21 days (full)</div>
+        </div>
+      </div>
+
+      <div class="card-note">Ring fills as you build toward 7 days; once it completes (≥7), the ring stays full and only the number grows. Familiar from fitness apps and Duolingo. Animated fill on load would feel rewarding. Slightly complex to implement dynamically.</div>
+    </div>
+
+    <!-- G: Comet -->
+    <div class="card">
+      <div class="card-tag">Option G — Comet</div>
+      <div class="card-name">Trailing dots → bright head — motion, momentum</div>
+
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <div style="display:flex;align-items:center;gap:4px;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;color:#F4A0BC;">
+            <!-- comet: small dot → medium dot → large dot = trailing to leading -->
+            <svg width="22" height="8" viewBox="0 0 22 8">
+              <circle cx="3" cy="4" r="1.2" fill="#F4A0BC" opacity="0.2"/>
+              <circle cx="9" cy="4" r="1.8" fill="#F4A0BC" opacity="0.45"/>
+              <circle cx="16" cy="4" r="2.8" fill="#F4A0BC"/>
+              <!-- speed lines -->
+              <line x1="0" y1="2.5" x2="5" y2="2.5" stroke="#F4A0BC" stroke-width="0.8" opacity="0.15"/>
+              <line x1="0" y1="5.5" x2="5" y2="5.5" stroke="#F4A0BC" stroke-width="0.8" opacity="0.15"/>
+            </svg>
+            <span>7</span>
+          </div>
+        </div>
+        <div class="sim-logo">JUMBL<span class="sim-logo-circle">E</span></div>
+        <div class="sim-timer"><span>1:42</span><span class="sim-pill">HIDE</span></div>
+      </div>
+
+      <div class="multi-count">
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;color:#F4A0BC;">
+            <svg width="20" height="8" viewBox="0 0 22 8"><circle cx="3" cy="4" r="1.2" fill="#F4A0BC" opacity="0.2"/><circle cx="9" cy="4" r="1.8" fill="#F4A0BC" opacity="0.45"/><circle cx="16" cy="4" r="2.8" fill="#F4A0BC"/></svg><span>3</span></div>
+          <div class="count-label">3 days</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;color:#F4A0BC;">
+            <svg width="20" height="8" viewBox="0 0 22 8"><circle cx="3" cy="4" r="1.2" fill="#F4A0BC" opacity="0.2"/><circle cx="9" cy="4" r="1.8" fill="#F4A0BC" opacity="0.45"/><circle cx="16" cy="4" r="2.8" fill="#F4A0BC"/></svg><span>7</span></div>
+          <div class="count-label">7 days</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;color:#F4A0BC;">
+            <svg width="20" height="8" viewBox="0 0 22 8"><circle cx="3" cy="4" r="1.2" fill="#F4A0BC" opacity="0.2"/><circle cx="9" cy="4" r="1.8" fill="#F4A0BC" opacity="0.45"/><circle cx="16" cy="4" r="2.8" fill="#F4A0BC"/></svg><span>21</span></div>
+          <div class="count-label">21 days</div>
+        </div>
+      </div>
+
+      <div class="card-note">Three circles of increasing size + faint speed lines. Reads as forward momentum. Static — looks identical at any streak length. More poetic than literal. Clean silhouette.</div>
+    </div>
+
+    <!-- H: Spark / starburst -->
+    <div class="card">
+      <div class="card-tag">Option H — Spark</div>
+      <div class="card-name">8-ray burst with number center — energy, achievement</div>
+
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <div style="display:flex;align-items:center;gap:4px;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;color:#F4A0BC;">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+              <!-- 8 rays -->
+              <line x1="8" y1="1" x2="8" y2="4" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="8" y1="12" x2="8" y2="15" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="1" y1="8" x2="4" y2="8" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="12" y1="8" x2="15" y2="8" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="2.9" y1="2.9" x2="4.8" y2="4.8" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="11.2" y1="11.2" x2="13.1" y2="13.1" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="13.1" y1="2.9" x2="11.2" y2="4.8" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="4.8" y1="11.2" x2="2.9" y2="13.1" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+            <span>7</span>
+          </div>
+        </div>
+        <div class="sim-logo">JUMBL<span class="sim-logo-circle">E</span></div>
+        <div class="sim-timer"><span>1:42</span><span class="sim-pill">HIDE</span></div>
+      </div>
+
+      <div class="multi-count">
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;color:#F4A0BC;">
+            <svg width="14" height="14" viewBox="0 0 16 16"><line x1="8" y1="1" x2="8" y2="4" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="12" x2="8" y2="15" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="8" x2="4" y2="8" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="12" y1="8" x2="15" y2="8" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="2.9" y1="2.9" x2="4.8" y2="4.8" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/><line x1="11.2" y1="11.2" x2="13.1" y2="13.1" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/><line x1="13.1" y1="2.9" x2="11.2" y2="4.8" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/><line x1="4.8" y1="11.2" x2="2.9" y2="13.1" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <span>3</span></div>
+          <div class="count-label">3 days</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;color:#F4A0BC;">
+            <svg width="14" height="14" viewBox="0 0 16 16"><line x1="8" y1="1" x2="8" y2="4" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="12" x2="8" y2="15" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="8" x2="4" y2="8" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="12" y1="8" x2="15" y2="8" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="2.9" y1="2.9" x2="4.8" y2="4.8" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/><line x1="11.2" y1="11.2" x2="13.1" y2="13.1" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/><line x1="13.1" y1="2.9" x2="11.2" y2="4.8" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/><line x1="4.8" y1="11.2" x2="2.9" y2="13.1" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <span>7</span></div>
+          <div class="count-label">7 days</div>
+        </div>
+        <div class="count-item">
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Figtree',sans-serif;font-size:0.7rem;font-weight:700;color:#F4A0BC;">
+            <svg width="14" height="14" viewBox="0 0 16 16"><line x1="8" y1="1" x2="8" y2="4" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="12" x2="8" y2="15" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="8" x2="4" y2="8" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="12" y1="8" x2="15" y2="8" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="2.9" y1="2.9" x2="4.8" y2="4.8" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/><line x1="11.2" y1="11.2" x2="13.1" y2="13.1" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/><line x1="13.1" y1="2.9" x2="11.2" y2="4.8" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/><line x1="4.8" y1="11.2" x2="2.9" y2="13.1" stroke="#F4A0BC" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <span>21</span></div>
+          <div class="count-label">21 days</div>
+        </div>
+      </div>
+
+      <div class="card-note">8-point asterisk/starburst. Evokes energy and achievement rather than literally "days." Works at any size. Less literal but more visually interesting than a simple flame or star.</div>
+    </div>
+
+  </div><!-- /grid -->
+</div><!-- /§D -->
+
+<!-- Also: game board preview with dot prompts -->
+<div class="sec">
+  <div class="sec-eyebrow">§G confirmed — visual check</div>
+  <div class="sec-title">Prompt dots — T · E · S · O · L · C</div>
+  <div class="sec-desc">Showing the dot-separated prompt style in context (Figtree, cream background). Currently the game uses double-space separation — this confirms what the change will look like.</div>
+  <div style="background:#FEFCF3; border-radius:8px; padding:20px; max-width:280px; border:1px solid #ece8e0;">
+    <div style="font-family:'Figtree',sans-serif; font-size:0.52rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#bbb; text-align:center; margin-bottom:6px;">T · E · S · O · L · C</div>
+    <div class="sim-slots">
+      <div class="sim-slot">C</div>
+      <div class="sim-slot active">L</div>
+      <div class="sim-slot">O</div>
+      <div class="sim-slot circled">S</div>
+      <div class="sim-slot confirmed">E</div>
+      <div class="sim-slot">T</div>
+    </div>
+    <div style="font-size:0.52rem; color:#ccc; text-align:center; margin-top:4px; font-family:'Figtree',sans-serif;">active slot in rose, circled position has ring, grey = confirmed</div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="border-top:1.5px solid #bbb; padding-top:20px; font-size:0.72rem; color:#888; line-height:1.9;">
+  <strong style="color:#333;">Still needed:</strong> §D streak badge (A–H above).
+  Once decided, all visual decisions will be implemented together across style.css, main.js, and index.html in one pass.
+</div>
+
+</body>
+</html>

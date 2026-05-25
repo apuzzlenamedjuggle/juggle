@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JUMBLE — Swatches v4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #E4E4E0;
+      font-family: 'Inter', sans-serif;
+      color: #111;
+      padding: 48px 32px 100px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .ph { margin-bottom: 52px; border-bottom: 3px solid #111; padding-bottom: 20px; }
+    .ph-eyebrow { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #888; margin-bottom: 8px; }
+    .ph-title { font-family: 'Figtree', sans-serif; font-size: 1.9rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .ph-body { font-size: 0.78rem; color: #555; line-height: 1.8; max-width: 600px; }
+
+    .sec { margin-bottom: 72px; }
+    .sec-eyebrow { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #999; padding-top: 14px; border-top: 1.5px solid #bbb; margin-bottom: 4px; }
+    .sec-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+    .sec-desc { font-size: 0.77rem; color: #666; line-height: 1.75; margin-bottom: 24px; max-width: 620px; }
+
+    .grid { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; }
+    .card { background: #fff; border-radius: 10px; padding: 18px 16px 14px; flex: 1; min-width: 200px; max-width: 300px; }
+    .card.wide { max-width: 100%; flex: 0 0 100%; }
+    .card-tag { font-size: 0.56rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #aaa; margin-bottom: 4px; }
+    .card-name { font-size: 0.73rem; font-weight: 600; color: #333; margin-bottom: 12px; line-height: 1.4; }
+    .card-note { font-size: 0.62rem; color: #999; margin-top: 10px; line-height: 1.6; font-style: italic; }
+    hr.dv { border: none; border-top: 1px solid #eee; margin: 12px 0; }
+
+    /* ── Figtree-based logo ── */
+    .logo {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+    }
+    /* FIXED: circle is 1.3em so the letter has breathing room */
+    .logo-e {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.3em;
+      height: 1.3em;
+      border: 2.5px solid #111;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── Simulated header ── */
+    .sim-header {
+      background: #FEFCF3;
+      border-radius: 7px 7px 0 0;
+      padding: 10px 12px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      border: 1px solid #ece8e0;
+      border-bottom: none;
+    }
+    .sim-left { display: flex; align-items: center; gap: 6px; }
+    .sim-q {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 1.5px solid #ccc;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; font-weight: 700; color: #888;
+      font-family: 'Figtree', sans-serif;
+      flex-shrink: 0;
+    }
+    .sim-right { display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+    .sim-time { font-family: 'Figtree', sans-serif; font-size: 0.7rem; font-weight: 700; }
+    .sim-meta { background: #FEFCF3; border-radius: 0 0 7px 7px; padding: 4px 12px 8px; border: 1px solid #ece8e0; border-top: 1px solid #f0ebe0; }
+    .sim-theme { font-family: 'Figtree', sans-serif; font-size: 0.5rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; text-align: center; }
+
+    /* ── Simulated board ── */
+    .sim-board { background: #FEFCF3; border-radius: 0 0 7px 7px; padding: 8px 12px 10px; border: 1px solid #ece8e0; border-top: none; }
+    .sim-prompt { font-family: 'Figtree', sans-serif; font-size: 0.5rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-align: center; margin-bottom: 4px; }
+    .sim-slots { display: flex; gap: 3px; justify-content: center; margin-bottom: 6px; }
+    .sim-slot { width: 24px; height: 29px; border-bottom: 1.8px solid #ccc; display: flex; align-items: center; justify-content: center; font-family: 'Figtree', sans-serif; font-size: 0.7rem; font-weight: 700; position: relative; }
+    .sim-slot.active { border-bottom-color: #F4A0BC; border-bottom-width: 2.5px; }
+    /* Berry confirmed - current word */
+    .sim-slot.conf-active { border-bottom-color: #e0e0e0; color: #C84B70; border-bottom-width: 1.5px; }
+    /* Solved row - transparent pink */
+    .sim-slot.conf-solved { border-bottom-color: #e0e0e0; color: rgba(200, 75, 112, 0.28); border-bottom-width: 1.5px; }
+    .sim-slot.circled::after { content:''; position:absolute; inset:2px 0 3px; border:1.5px solid #111; border-radius:50%; }
+    .sim-slot.circled.conf-active::after { border-color: #C84B70; }
+    .sim-slot.circled.conf-solved::after { border-color: rgba(200, 75, 112, 0.28); }
+    .sim-btn { display: block; width: 100%; padding: 6px; background: #111; color: #fff; font-family: 'Figtree', sans-serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.16em; border: none; border-radius: 3px; text-align: center; text-transform: uppercase; margin-top: 6px; }
+    .sim-row-label { font-size: 0.5rem; color: #bbb; text-align: right; margin-bottom: 2px; font-family: 'Figtree', sans-serif; }
+
+    /* ── Day palette ── */
+    --j: #F4A0BC;
+    --u: #A4C0E8;
+    --m: #F7B090;
+    --b: #C4B0E8;
+    --l: #F0DC8C;
+    --eg: #A8D4B4;
+  </style>
+</head>
+<body>
+
+<div class="ph">
+  <div class="ph-eyebrow">Jumble — Design System · v4</div>
+  <div class="ph-title">Logo Color, Streaks, Timer, Confirmed Letters</div>
+  <div class="ph-body">Covers four remaining open questions: the colored JUMBLE logo with daily cycling, streak badge alternatives, timer toggle aesthetics, and confirmed-letter color states. E circle spacing is corrected throughout.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     §A  JUMBLE LOGO — COLORED LETTERS + DAILY CYCLING
+══════════════════════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">§A</div>
+  <div class="sec-title">JUMBLE Logo — Colored Letters</div>
+  <div class="sec-desc">Each letter gets one color from the pastel rainbow: J=pink, U=blue, M=orange, B=purple, L=yellow, E=green (circle stays black). The six colors rotate one position each day — so every day the logo feels fresh. Shown at header size and pregame size. E circle spacing is corrected (1.3em, not 1.1em).</div>
+
+  <div class="grid">
+
+    <!-- Day 1 -->
+    <div class="card">
+      <div class="card-tag">Day 1 — base order</div>
+      <div class="card-name">J pink · U blue · M orange · B purple · L yellow · E green</div>
+      <div style="margin-bottom:14px;">
+        <!-- Header size -->
+        <div style="font-size:0.5rem;color:#bbb;margin-bottom:5px;font-family:'Figtree',sans-serif;">Header (1rem)</div>
+        <div class="logo" style="font-size:1rem; gap:0;">
+          <span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4; border-color:#111; font-size:1rem;">E</span>
+        </div>
+      </div>
+      <div style="margin-bottom:14px;">
+        <!-- Pregame size -->
+        <div style="font-size:0.5rem;color:#bbb;margin-bottom:5px;font-family:'Figtree',sans-serif;">Pregame (1.8rem)</div>
+        <div class="logo" style="font-size:1.8rem; gap:0;">
+          <span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4; border-color:#111; font-size:1.8rem;">E</span>
+        </div>
+      </div>
+      <!-- Full header preview -->
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <!-- streak badge placeholder (will decide §C) -->
+          <div style="width:20px;"></div>
+        </div>
+        <div class="logo" style="font-size:0.92rem; gap:0;">
+          <span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4; border-color:#111; font-size:0.92rem;">E</span>
+        </div>
+        <div class="sim-right">
+          <span class="sim-time">1:42</span>
+          <div style="font-size:0.5rem;font-weight:700;letter-spacing:0.1em;padding:2px 7px;border:1.2px solid #bbb;border-radius:20px;color:#aaa;font-family:'Figtree',sans-serif;">HIDE</div>
+        </div>
+      </div>
+      <div class="sim-meta"><div class="sim-theme">Around the House</div></div>
+    </div>
+
+    <!-- Day 2 (rotate +1) -->
+    <div class="card">
+      <div class="card-tag">Day 2 — rotate +1</div>
+      <div class="card-name">J blue · U orange · M purple · B yellow · L green · E pink</div>
+      <div style="margin-bottom:14px;">
+        <div style="font-size:0.5rem;color:#bbb;margin-bottom:5px;font-family:'Figtree',sans-serif;">Header</div>
+        <div class="logo" style="font-size:1rem; gap:0;">
+          <span style="color:#A4C0E8;">J</span><span style="color:#F7B090;">U</span><span style="color:#C4B0E8;">M</span><span style="color:#F0DC8C;">B</span><span style="color:#A8D4B4;">L</span><span class="logo-e" style="color:#F4A0BC; border-color:#111; font-size:1rem;">E</span>
+        </div>
+      </div>
+      <div class="sim-header">
+        <div class="sim-left"><div class="sim-q">?</div><div style="width:20px;"></div></div>
+        <div class="logo" style="font-size:0.92rem; gap:0;">
+          <span style="color:#A4C0E8;">J</span><span style="color:#F7B090;">U</span><span style="color:#C4B0E8;">M</span><span style="color:#F0DC8C;">B</span><span style="color:#A8D4B4;">L</span><span class="logo-e" style="color:#F4A0BC; border-color:#111; font-size:0.92rem;">E</span>
+        </div>
+        <div class="sim-right"><span class="sim-time">1:42</span><div style="font-size:0.5rem;font-weight:700;letter-spacing:0.1em;padding:2px 7px;border:1.2px solid #bbb;border-radius:20px;color:#aaa;font-family:'Figtree',sans-serif;">HIDE</div></div>
+      </div>
+      <div class="sim-meta"><div class="sim-theme">Around the House</div></div>
+    </div>
+
+    <!-- Day 3 (rotate +2) -->
+    <div class="card">
+      <div class="card-tag">Day 3 — rotate +2</div>
+      <div class="card-name">J orange · U purple · M yellow · B green · L pink · E blue</div>
+      <div style="margin-bottom:14px;">
+        <div style="font-size:0.5rem;color:#bbb;margin-bottom:5px;font-family:'Figtree',sans-serif;">Header</div>
+        <div class="logo" style="font-size:1rem; gap:0;">
+          <span style="color:#F7B090;">J</span><span style="color:#C4B0E8;">U</span><span style="color:#F0DC8C;">M</span><span style="color:#A8D4B4;">B</span><span style="color:#F4A0BC;">L</span><span class="logo-e" style="color:#A4C0E8; border-color:#111; font-size:1rem;">E</span>
+        </div>
+      </div>
+      <div class="sim-header">
+        <div class="sim-left"><div class="sim-q">?</div><div style="width:20px;"></div></div>
+        <div class="logo" style="font-size:0.92rem; gap:0;">
+          <span style="color:#F7B090;">J</span><span style="color:#C4B0E8;">U</span><span style="color:#F0DC8C;">M</span><span style="color:#A8D4B4;">B</span><span style="color:#F4A0BC;">L</span><span class="logo-e" style="color:#A4C0E8; border-color:#111; font-size:0.92rem;">E</span>
+        </div>
+        <div class="sim-right"><span class="sim-time">1:42</span><div style="font-size:0.5rem;font-weight:700;letter-spacing:0.1em;padding:2px 7px;border:1.2px solid #bbb;border-radius:20px;color:#aaa;font-family:'Figtree',sans-serif;">HIDE</div></div>
+      </div>
+      <div class="sim-meta"><div class="sim-theme">Around the House</div></div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- Color propagation note -->
+  <div style="background:#fff; border-radius:10px; padding:18px 20px; margin-top:14px;">
+    <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#aaa;margin-bottom:10px;">How colors flow into other elements</div>
+    <div style="display:flex;flex-wrap:wrap;gap:16px 32px;font-size:0.72rem;line-height:2;">
+      <div><strong style="font-family:'Figtree',sans-serif;">Active cursor underline</strong> — uses today's J-letter color (first in rotation). Changes daily with the logo.</div>
+      <div><strong style="font-family:'Figtree',sans-serif;">READY button</strong> — uses today's J-letter color as background, or a full 6-color gradient bar beneath it.</div>
+      <div><strong style="font-family:'Figtree',sans-serif;">Pregame theme label</strong> — today's J-letter color for the theme text.</div>
+      <div><strong style="font-family:'Figtree',sans-serif;">Achievement ribbons</strong> — each badge has its own fixed color (periwinkle, pink, lavender, green) — independent of daily rotation.</div>
+      <div><strong style="font-family:'Figtree',sans-serif;">Confetti</strong> — always pastel rainbow (not tied to daily rotation).</div>
+      <div><strong style="font-family:'Figtree',sans-serif;">Berry confirmed letters</strong> — fixed, not tied to daily rotation (see §D below).</div>
+    </div>
+    <!-- READY button examples -->
+    <div style="margin-top:16px;">
+      <div style="font-size:0.58rem;color:#bbb;margin-bottom:8px;font-family:'Figtree',sans-serif;">READY button — two options for color use:</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;">
+        <div>
+          <div style="font-size:0.52rem;color:#bbb;margin-bottom:4px;font-family:'Figtree',sans-serif;">Option α — solid J-color</div>
+          <button style="background:#F4A0BC;color:#fff;font-family:'Figtree',sans-serif;font-weight:800;font-size:0.72rem;letter-spacing:0.18em;border:none;border-radius:4px;padding:10px 28px;cursor:pointer;">READY</button>
+        </div>
+        <div>
+          <div style="font-size:0.52rem;color:#bbb;margin-bottom:4px;font-family:'Figtree',sans-serif;">Option β — rainbow gradient underline on black</div>
+          <button style="background:#111;color:#fff;font-family:'Figtree',sans-serif;font-weight:800;font-size:0.72rem;letter-spacing:0.18em;border:none;border-radius:4px;padding:10px 28px;cursor:pointer;border-bottom:4px solid transparent;border-image:linear-gradient(to right,#F4A0BC,#A4C0E8,#F7B090,#C4B0E8,#F0DC8C,#A8D4B4) 1;">READY</button>
+        </div>
+        <div>
+          <div style="font-size:0.52rem;color:#bbb;margin-bottom:4px;font-family:'Figtree',sans-serif;">Option γ — black, clean (colors only in logo)</div>
+          <button style="background:#111;color:#fff;font-family:'Figtree',sans-serif;font-weight:800;font-size:0.72rem;letter-spacing:0.18em;border:none;border-radius:4px;padding:10px 28px;cursor:pointer;">READY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /§A -->
+
+<!-- ══════════════════════════════════════════════════════════
+     §B  CONFIRMED LETTER STATES
+══════════════════════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">§B</div>
+  <div class="sec-title">Confirmed Letter States</div>
+  <div class="sec-desc">Two states: (1) a letter confirmed in the active word — shown in Berry so it reads as "locked in, you got this one right." (2) after the whole word is solved — those same letters fade to a transparent pink so five completed rows of bold Berry don't create visual noise at the bottom of the screen.</div>
+
+  <div class="grid">
+
+    <div class="card wide">
+      <div class="card-tag">All five rows — mid-game (words 1–3 solved, word 4 active)</div>
+      <div class="card-name">Solved rows fade. Active row uses Berry for confirmed positions.</div>
+      <hr class="dv">
+
+      <!-- Row 1: solved -->
+      <div style="margin-bottom:8px;">
+        <div class="sim-row-label">Word 1 — SOLVED</div>
+        <div class="sim-prompt" style="color:#e0d0d4;">C · L · O · S · E · T</div>
+        <div class="sim-slots">
+          <div class="sim-slot conf-solved">C</div>
+          <div class="sim-slot conf-solved">L</div>
+          <div class="sim-slot conf-solved">O</div>
+          <div class="sim-slot circled conf-solved">S</div>
+          <div class="sim-slot conf-solved">E</div>
+          <div class="sim-slot conf-solved">T</div>
+        </div>
+      </div>
+
+      <!-- Row 2: solved -->
+      <div style="margin-bottom:8px;">
+        <div class="sim-row-label">Word 2 — SOLVED</div>
+        <div class="sim-prompt" style="color:#e0d0d4;">F · R · D · G · I · E</div>
+        <div class="sim-slots">
+          <div class="sim-slot conf-solved">F</div>
+          <div class="sim-slot conf-solved">R</div>
+          <div class="sim-slot conf-solved circled">I</div>
+          <div class="sim-slot conf-solved circled">D</div>
+          <div class="sim-slot conf-solved">G</div>
+          <div class="sim-slot conf-solved">E</div>
+        </div>
+      </div>
+
+      <!-- Row 3: solved -->
+      <div style="margin-bottom:8px;">
+        <div class="sim-row-label">Word 3 — SOLVED</div>
+        <div class="sim-prompt" style="color:#e0d0d4;">P · C · R · T · A · E</div>
+        <div class="sim-slots">
+          <div class="sim-slot conf-solved">C</div>
+          <div class="sim-slot conf-solved circled">A</div>
+          <div class="sim-slot conf-solved">R</div>
+          <div class="sim-slot conf-solved">P</div>
+          <div class="sim-slot conf-solved">E</div>
+          <div class="sim-slot conf-solved">T</div>
+        </div>
+      </div>
+
+      <!-- Row 4: active, 2 confirmed + 1 placed -->
+      <div style="margin-bottom:8px;">
+        <div class="sim-row-label" style="color:#C84B70;font-weight:700;">Word 4 — ACTIVE (2 confirmed)</div>
+        <div class="sim-prompt" style="color:#bbb;">T · R · A · N · Y · P</div>
+        <div class="sim-slots">
+          <div class="sim-slot conf-active">P</div>
+          <div class="sim-slot conf-active">A</div>
+          <div class="sim-slot active">N</div>
+          <div class="sim-slot conf-active circled">T</div>
+          <div class="sim-slot"></div>
+          <div class="sim-slot"></div>
+        </div>
+      </div>
+
+      <!-- Row 5: locked (hard mode) or empty -->
+      <div style="margin-bottom:10px;">
+        <div class="sim-row-label">Word 5 — not yet active</div>
+        <div class="sim-prompt" style="color:#ebebeb;">· · · · · ·</div>
+        <div class="sim-slots">
+          <div class="sim-slot"></div><div class="sim-slot"></div><div class="sim-slot"></div>
+          <div class="sim-slot circled" style="border-bottom-color:#e8e8e8;"></div>
+          <div class="sim-slot"></div><div class="sim-slot"></div>
+        </div>
+      </div>
+
+      <div style="font-size:0.62rem;color:#888;line-height:1.7;">
+        <strong>Solved rows</strong> use <code style="font-size:0.6rem;background:#f5f5f5;padding:1px 4px;border-radius:2px;">rgba(200, 75, 112, 0.25)</code> — visibly pink but not demanding.<br>
+        <strong>Active row confirmed</strong> uses solid Berry <code style="font-size:0.6rem;background:#f5f5f5;padding:1px 4px;border-radius:2px;">#C84B70</code> — clearly locked and meaningful.<br>
+        <strong>Empty slots</strong> remain dark underline — neutral, waiting.
+      </div>
+
+    </div>
+
+  </div><!-- /grid -->
+</div><!-- /§B -->
+
+<!-- ══════════════════════════════════════════════════════════
+     §C  STREAK BADGE — FINAL OPTIONS
+══════════════════════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">§C</div>
+  <div class="sec-title">Streak Badge — Refined Options</div>
+  <div class="sec-desc">Day Dots refined (no implied "playable past days" — dots now show progress toward a 5-day milestone), plus four new icons that haven't appeared yet. All use today's accent color (J-letter color = Pastel Rose on Day 1). Shown at actual header size, streaks 1, 3, and 7.</div>
+
+  <div class="grid">
+
+    <!-- A-refined: Day dots (milestone progress) -->
+    <div class="card">
+      <div class="card-tag">Option A — Day Dots (refined)</div>
+      <div class="card-name">Dots show progress toward 5-day milestone, not past calendar days</div>
+      <div style="margin-bottom:12px;">
+        <div style="font-size:0.52rem;color:#bbb;margin-bottom:6px;font-family:'Figtree',sans-serif;">How it works: dots fill 1→2→3→4→5, then stay full + number grows</div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;">
+          <div style="text-align:center;">
+            <div style="display:flex;align-items:center;gap:3px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;margin-bottom:3px;">
+              <div style="display:flex;gap:2px;">
+                <div style="width:7px;height:7px;border-radius:2px;background:#F4A0BC;"></div>
+                <div style="width:7px;height:7px;border-radius:2px;background:transparent;border:1.5px solid #F4A0BC;opacity:0.4;"></div>
+                <div style="width:7px;height:7px;border-radius:2px;background:transparent;border:1.5px solid #F4A0BC;opacity:0.4;"></div>
+                <div style="width:7px;height:7px;border-radius:2px;background:transparent;border:1.5px solid #F4A0BC;opacity:0.4;"></div>
+                <div style="width:7px;height:7px;border-radius:2px;background:transparent;border:1.5px solid #F4A0BC;opacity:0.4;"></div>
+              </div>
+              <span>1</span>
+            </div>
+            <div style="font-size:0.5rem;color:#bbb;">streak 1</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="display:flex;align-items:center;gap:3px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;margin-bottom:3px;">
+              <div style="display:flex;gap:2px;">
+                <div style="width:7px;height:7px;border-radius:2px;background:#F4A0BC;"></div>
+                <div style="width:7px;height:7px;border-radius:2px;background:#F4A0BC;"></div>
+                <div style="width:7px;height:7px;border-radius:2px;background:#F4A0BC;"></div>
+                <div style="width:7px;height:7px;border-radius:2px;background:transparent;border:1.5px solid #F4A0BC;opacity:0.4;"></div>
+                <div style="width:7px;height:7px;border-radius:2px;background:transparent;border:1.5px solid #F4A0BC;opacity:0.4;"></div>
+              </div>
+              <span>3</span>
+            </div>
+            <div style="font-size:0.5rem;color:#bbb;">streak 3</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="display:flex;align-items:center;gap:3px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;margin-bottom:3px;">
+              <div style="display:flex;gap:2px;">
+                <div style="width:7px;height:7px;border-radius:2px;background:#F4A0BC;"></div>
+                <div style="width:7px;height:7px;border-radius:2px;background:#F4A0BC;"></div>
+                <div style="width:7px;height:7px;border-radius:2px;background:#F4A0BC;"></div>
+                <div style="width:7px;height:7px;border-radius:2px;background:#F4A0BC;"></div>
+                <div style="width:7px;height:7px;border-radius:2px;background:#F4A0BC;"></div>
+              </div>
+              <span>7</span>
+            </div>
+            <div style="font-size:0.5rem;color:#bbb;">streak 7+</div>
+          </div>
+        </div>
+      </div>
+      <!-- In header -->
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <div style="display:flex;align-items:center;gap:3px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;">
+            <div style="display:flex;gap:2px;">
+              <div style="width:7px;height:7px;border-radius:2px;background:#F4A0BC;"></div>
+              <div style="width:7px;height:7px;border-radius:2px;background:#F4A0BC;"></div>
+              <div style="width:7px;height:7px;border-radius:2px;background:#F4A0BC;"></div>
+              <div style="width:7px;height:7px;border-radius:2px;background:transparent;border:1.5px solid #F4A0BC;opacity:0.4;"></div>
+              <div style="width:7px;height:7px;border-radius:2px;background:transparent;border:1.5px solid #F4A0BC;opacity:0.4;"></div>
+            </div>
+            <span>3</span>
+          </div>
+        </div>
+        <div class="logo" style="font-size:0.92rem;gap:0;"><span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4;border-color:#111;font-size:0.92rem;">E</span></div>
+        <div class="sim-right"><span class="sim-time">1:42</span></div>
+      </div>
+      <div class="card-note">Dots mean "days to reach next milestone" (5). No implied calendar — just progress. At 5+ days all dots fill and only the count grows. Clean, minimal, earned-feeling.</div>
+    </div>
+
+    <!-- B: 4-point sparkle -->
+    <div class="card">
+      <div class="card-tag">Option B — 4-Point Sparkle</div>
+      <div class="card-name">✦ Distinct from the 5-point achievement star</div>
+      <div style="display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="display:flex;align-items:center;gap:3px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;margin-bottom:3px;">
+            <svg width="13" height="13" viewBox="0 0 13 13"><path d="M6.5 0L7.5 5.5L13 6.5L7.5 7.5L6.5 13L5.5 7.5L0 6.5L5.5 5.5Z" fill="#F4A0BC"/></svg>
+            <span>1</span></div>
+          <div style="font-size:0.5rem;color:#bbb;">streak 1</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="display:flex;align-items:center;gap:3px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;margin-bottom:3px;">
+            <svg width="13" height="13" viewBox="0 0 13 13"><path d="M6.5 0L7.5 5.5L13 6.5L7.5 7.5L6.5 13L5.5 7.5L0 6.5L5.5 5.5Z" fill="#F4A0BC"/></svg>
+            <span>3</span></div>
+          <div style="font-size:0.5rem;color:#bbb;">streak 3</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="display:flex;align-items:center;gap:3px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;margin-bottom:3px;">
+            <svg width="13" height="13" viewBox="0 0 13 13"><path d="M6.5 0L7.5 5.5L13 6.5L7.5 7.5L6.5 13L5.5 7.5L0 6.5L5.5 5.5Z" fill="#F4A0BC"/></svg>
+            <span>7</span></div>
+          <div style="font-size:0.5rem;color:#bbb;">streak 7</div>
+        </div>
+      </div>
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <div style="display:flex;align-items:center;gap:3px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;">
+            <svg width="13" height="13" viewBox="0 0 13 13"><path d="M6.5 0L7.5 5.5L13 6.5L7.5 7.5L6.5 13L5.5 7.5L0 6.5L5.5 5.5Z" fill="#F4A0BC"/></svg>
+            <span>3</span>
+          </div>
+        </div>
+        <div class="logo" style="font-size:0.92rem;gap:0;"><span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4;border-color:#111;font-size:0.92rem;">E</span></div>
+        <div class="sim-right"><span class="sim-time">1:42</span></div>
+      </div>
+      <div class="card-note">A 4-pointed star/sparkle (✦) reads as "special" and "recurring." Visually distinct from the 5-point achievement ★. Recognisable at small sizes. Single static icon — no state change.</div>
+    </div>
+
+    <!-- C: Sun with rays -->
+    <div class="card">
+      <div class="card-tag">Option C — Mini Sun</div>
+      <div class="card-name">Return daily = sunrise. 6 short rays, geometric.</div>
+      <div style="display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="display:flex;align-items:center;gap:3px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;margin-bottom:3px;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <circle cx="7" cy="7" r="3" fill="#F4A0BC"/>
+              <line x1="7" y1="0.5" x2="7" y2="2.5" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="7" y1="11.5" x2="7" y2="13.5" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0.5" y1="7" x2="2.5" y2="7" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="11.5" y1="7" x2="13.5" y2="7" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="2.4" y1="2.4" x2="3.8" y2="3.8" stroke="#F4A0BC" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="10.2" y1="10.2" x2="11.6" y2="11.6" stroke="#F4A0BC" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="11.6" y1="2.4" x2="10.2" y2="3.8" stroke="#F4A0BC" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="3.8" y1="10.2" x2="2.4" y2="11.6" stroke="#F4A0BC" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+            <span>1</span></div>
+          <div style="font-size:0.5rem;color:#bbb;">streak 1</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="display:flex;align-items:center;gap:3px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;margin-bottom:3px;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#F4A0BC"/><line x1="7" y1="0.5" x2="7" y2="2.5" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="11.5" x2="7" y2="13.5" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="0.5" y1="7" x2="2.5" y2="7" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="11.5" y1="7" x2="13.5" y2="7" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="2.4" y1="2.4" x2="3.8" y2="3.8" stroke="#F4A0BC" stroke-width="1.3" stroke-linecap="round"/><line x1="10.2" y1="10.2" x2="11.6" y2="11.6" stroke="#F4A0BC" stroke-width="1.3" stroke-linecap="round"/><line x1="11.6" y1="2.4" x2="10.2" y2="3.8" stroke="#F4A0BC" stroke-width="1.3" stroke-linecap="round"/><line x1="3.8" y1="10.2" x2="2.4" y2="11.6" stroke="#F4A0BC" stroke-width="1.3" stroke-linecap="round"/></svg>
+            <span>3</span></div>
+          <div style="font-size:0.5rem;color:#bbb;">streak 3</div>
+        </div>
+      </div>
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#F4A0BC"/><line x1="7" y1="0.5" x2="7" y2="2.5" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="11.5" x2="7" y2="13.5" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="0.5" y1="7" x2="2.5" y2="7" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="11.5" y1="7" x2="13.5" y2="7" stroke="#F4A0BC" stroke-width="1.5" stroke-linecap="round"/><line x1="2.4" y1="2.4" x2="3.8" y2="3.8" stroke="#F4A0BC" stroke-width="1.3" stroke-linecap="round"/><line x1="10.2" y1="10.2" x2="11.6" y2="11.6" stroke="#F4A0BC" stroke-width="1.3" stroke-linecap="round"/><line x1="11.6" y1="2.4" x2="10.2" y2="3.8" stroke="#F4A0BC" stroke-width="1.3" stroke-linecap="round"/><line x1="3.8" y1="10.2" x2="2.4" y2="11.6" stroke="#F4A0BC" stroke-width="1.3" stroke-linecap="round"/></svg>
+            <span style="color:#F4A0BC;">3</span>
+          </div>
+        </div>
+        <div class="logo" style="font-size:0.92rem;gap:0;"><span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4;border-color:#111;font-size:0.92rem;">E</span></div>
+        <div class="sim-right"><span class="sim-time">1:42</span></div>
+      </div>
+      <div class="card-note">Daily return = "a new day." The sun is one of the most universal symbols for "daily." Filled center + 8 rays. Elegant and geometric. Reads clearly at small sizes.</div>
+    </div>
+
+    <!-- D: × multiplier -->
+    <div class="card">
+      <div class="card-tag">Option D — Combo Multiplier</div>
+      <div class="card-name">×7 — like a score multiplier. No icon, pure type.</div>
+      <div style="display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="display:flex;align-items:baseline;gap:1px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-weight:700;margin-bottom:3px;">
+            <span style="font-size:0.6rem;opacity:0.6;">×</span><span style="font-size:0.82rem;">1</span></div>
+          <div style="font-size:0.5rem;color:#bbb;">streak 1</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="display:flex;align-items:baseline;gap:1px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-weight:700;margin-bottom:3px;">
+            <span style="font-size:0.6rem;opacity:0.6;">×</span><span style="font-size:0.82rem;">3</span></div>
+          <div style="font-size:0.5rem;color:#bbb;">streak 3</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="display:flex;align-items:baseline;gap:1px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-weight:700;margin-bottom:3px;">
+            <span style="font-size:0.6rem;opacity:0.6;">×</span><span style="font-size:0.82rem;">7</span></div>
+          <div style="font-size:0.5rem;color:#bbb;">streak 7</div>
+        </div>
+      </div>
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <div style="display:flex;align-items:baseline;gap:1px;color:#F4A0BC;font-family:'Figtree',sans-serif;font-weight:700;">
+            <span style="font-size:0.62rem;opacity:0.7;">×</span><span style="font-size:0.82rem;">3</span>
+          </div>
+        </div>
+        <div class="logo" style="font-size:0.92rem;gap:0;"><span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4;border-color:#111;font-size:0.92rem;">E</span></div>
+        <div class="sim-right"><span class="sim-time">1:42</span></div>
+      </div>
+      <div class="card-note">Borrows from gaming "combo" language — ×N. Pure typography, no icon at all. Very minimal. The × in small faded weight + bold large number has good visual hierarchy. Meaning isn't immediately obvious to non-gamers.</div>
+    </div>
+
+    <!-- E: arc (refined) -->
+    <div class="card">
+      <div class="card-tag">Option E — Arc (refined from v3)</div>
+      <div class="card-name">Ring fills toward 7 days, then locks full + number grows</div>
+      <div style="display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;color:#F4A0BC;margin-bottom:3px;">
+            <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="#F4A0BC" stroke-width="2" opacity="0.15"/><circle cx="8" cy="8" r="6" fill="none" stroke="#F4A0BC" stroke-width="2" stroke-dasharray="37.7" stroke-dashoffset="32.4" stroke-linecap="round" transform="rotate(-90 8 8)"/></svg>
+            <span>1</span></div>
+          <div style="font-size:0.5rem;color:#bbb;">1 / 7</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;color:#F4A0BC;margin-bottom:3px;">
+            <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="#F4A0BC" stroke-width="2" opacity="0.15"/><circle cx="8" cy="8" r="6" fill="none" stroke="#F4A0BC" stroke-width="2" stroke-dasharray="37.7" stroke-dashoffset="21.5" stroke-linecap="round" transform="rotate(-90 8 8)"/></svg>
+            <span>3</span></div>
+          <div style="font-size:0.5rem;color:#bbb;">3 / 7</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;color:#F4A0BC;margin-bottom:3px;">
+            <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="#F4A0BC" stroke-width="2" opacity="0.15"/><circle cx="8" cy="8" r="6" fill="none" stroke="#F4A0BC" stroke-width="2" stroke-dasharray="37.7" stroke-dashoffset="0.5" stroke-linecap="round" transform="rotate(-90 8 8)"/></svg>
+            <span>7</span></div>
+          <div style="font-size:0.5rem;color:#bbb;">7+ full</div>
+        </div>
+      </div>
+      <div class="sim-header">
+        <div class="sim-left">
+          <div class="sim-q">?</div>
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Figtree',sans-serif;font-size:0.72rem;font-weight:700;color:#F4A0BC;">
+            <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="#F4A0BC" stroke-width="2" opacity="0.15"/><circle cx="8" cy="8" r="6" fill="none" stroke="#F4A0BC" stroke-width="2" stroke-dasharray="37.7" stroke-dashoffset="21.5" stroke-linecap="round" transform="rotate(-90 8 8)"/></svg>
+            <span>3</span>
+          </div>
+        </div>
+        <div class="logo" style="font-size:0.92rem;gap:0;"><span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4;border-color:#111;font-size:0.92rem;">E</span></div>
+        <div class="sim-right"><span class="sim-time">1:42</span></div>
+      </div>
+      <div class="card-note">Refinement from v3: ring now fills 1→7 (milestone tracking), then stays fully filled as the number grows. Visually progressive — satisfying to complete. Familiar from fitness/language apps.</div>
+    </div>
+
+  </div><!-- /grid -->
+</div><!-- /§C -->
+
+<!-- ══════════════════════════════════════════════════════════
+     §D  TIMER TOGGLE — ALTERNATIVES
+══════════════════════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">§D</div>
+  <div class="sec-title">Timer Toggle — New Approaches</div>
+  <div class="sec-desc">The confirmed text-pill (SHOW/HIDE) is kept as Option C-ref. Four new directions: tapping the timer itself, a minimal eye outline, a visual "cross" on the time display, and a small typographic toggle integrated into the time string.</div>
+
+  <div class="grid">
+
+    <!-- C-ref: pill (confirmed from v2) -->
+    <div class="card">
+      <div class="card-tag">Option C-ref — Text Pill (confirmed)</div>
+      <div class="card-name">HIDE / SHOW pill beside the display</div>
+      <div class="sim-header">
+        <div class="sim-left"><div class="sim-q">?</div></div>
+        <div class="logo" style="font-size:0.92rem;gap:0;"><span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4;border-color:#111;font-size:0.92rem;">E</span></div>
+        <div class="sim-right">
+          <span class="sim-time">1:42</span>
+          <div style="font-size:0.5rem;font-weight:700;letter-spacing:0.1em;padding:2px 7px;border:1.2px solid #bbb;border-radius:20px;color:#aaa;font-family:'Figtree',sans-serif;cursor:pointer;">HIDE</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:0.58rem;color:#aaa;">(after hiding)</div>
+      <div class="sim-header" style="margin-top:4px;">
+        <div class="sim-left"><div class="sim-q">?</div></div>
+        <div class="logo" style="font-size:0.92rem;gap:0;"><span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4;border-color:#111;font-size:0.92rem;">E</span></div>
+        <div class="sim-right">
+          <span class="sim-time" style="visibility:hidden;">1:42</span>
+          <div style="font-size:0.5rem;font-weight:700;letter-spacing:0.1em;padding:2px 7px;border:1.2px solid #111;border-radius:20px;color:#111;font-family:'Figtree',sans-serif;cursor:pointer;">SHOW</div>
+        </div>
+      </div>
+      <div class="card-note">Already confirmed. Shown for reference alongside new options.</div>
+    </div>
+
+    <!-- New A: tap the timer itself -->
+    <div class="card">
+      <div class="card-tag">Option E — Tap-the-Timer</div>
+      <div class="card-name">The time display itself is the button — dotted underline signals interactivity</div>
+      <div class="sim-header">
+        <div class="sim-left"><div class="sim-q">?</div></div>
+        <div class="logo" style="font-size:0.92rem;gap:0;"><span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4;border-color:#111;font-size:0.92rem;">E</span></div>
+        <div class="sim-right">
+          <span class="sim-time" style="border-bottom:1.5px dotted #ccc;cursor:pointer;padding-bottom:1px;">1:42</span>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:0.58rem;color:#aaa;">(after tapping — timer hidden)</div>
+      <div class="sim-header" style="margin-top:4px;">
+        <div class="sim-left"><div class="sim-q">?</div></div>
+        <div class="logo" style="font-size:0.92rem;gap:0;"><span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4;border-color:#111;font-size:0.92rem;">E</span></div>
+        <div class="sim-right">
+          <span class="sim-time" style="color:#ddd;border-bottom:1.5px dotted #e0e0e0;cursor:pointer;padding-bottom:1px;">—:——</span>
+        </div>
+      </div>
+      <div class="card-note">No button at all — the timer is the control. Dotted underline is a web convention for "this text does something." When hidden, shows —:—— in grey. Very minimal but requires discovery.</div>
+    </div>
+
+    <!-- New B: thin eye outline -->
+    <div class="card">
+      <div class="card-tag">Option F — Refined Eye Icon</div>
+      <div class="card-name">Thin SVG eye — outline only, no fill. Slash appears when hidden.</div>
+      <div class="sim-header">
+        <div class="sim-left"><div class="sim-q">?</div></div>
+        <div class="logo" style="font-size:0.92rem;gap:0;"><span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4;border-color:#111;font-size:0.92rem;">E</span></div>
+        <div class="sim-right">
+          <span class="sim-time">1:42</span>
+          <!-- eye open — thin, refined -->
+          <button style="background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;color:#888;">
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+              <path d="M1 6C1 6 3.5 1 8 1C12.5 1 15 6 15 6C15 6 12.5 11 8 11C3.5 11 1 6 1 6Z" stroke="#888" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="8" cy="6" r="2.2" stroke="#888" stroke-width="1.3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:0.58rem;color:#aaa;">(timer hidden — eye crossed)</div>
+      <div class="sim-header" style="margin-top:4px;">
+        <div class="sim-left"><div class="sim-q">?</div></div>
+        <div class="logo" style="font-size:0.92rem;gap:0;"><span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4;border-color:#111;font-size:0.92rem;">E</span></div>
+        <div class="sim-right">
+          <span class="sim-time" style="visibility:hidden;">1:42</span>
+          <button style="background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;color:#ccc;">
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+              <path d="M1 6C1 6 3.5 1 8 1C12.5 1 15 6 15 6C15 6 12.5 11 8 11C3.5 11 1 6 1 6Z" stroke="#ccc" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="3" y1="3" x2="13" y2="9" stroke="#ccc" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="card-note">Thin outline eye (not the chunky version from v2). Open eye = visible, slashed eye = hidden. More refined at this weight. The icon is clearly interactive and its meaning is unambiguous.</div>
+    </div>
+
+    <!-- New C: time with a small "•" toggle pip -->
+    <div class="card">
+      <div class="card-tag">Option G — Accent Pip</div>
+      <div class="card-name">Small filled circle beside the timer — tap to toggle. Changes color when hidden.</div>
+      <div class="sim-header">
+        <div class="sim-left"><div class="sim-q">?</div></div>
+        <div class="logo" style="font-size:0.92rem;gap:0;"><span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4;border-color:#111;font-size:0.92rem;">E</span></div>
+        <div class="sim-right">
+          <span class="sim-time">1:42</span>
+          <!-- filled dot = timer on -->
+          <div style="width:7px;height:7px;border-radius:50%;background:#F4A0BC;cursor:pointer;flex-shrink:0;" title="tap to hide"></div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:0.58rem;color:#aaa;">(timer hidden — pip outline only)</div>
+      <div class="sim-header" style="margin-top:4px;">
+        <div class="sim-left"><div class="sim-q">?</div></div>
+        <div class="logo" style="font-size:0.92rem;gap:0;"><span style="color:#F4A0BC;">J</span><span style="color:#A4C0E8;">U</span><span style="color:#F7B090;">M</span><span style="color:#C4B0E8;">B</span><span style="color:#F0DC8C;">L</span><span class="logo-e" style="color:#A8D4B4;border-color:#111;font-size:0.92rem;">E</span></div>
+        <div class="sim-right">
+          <span class="sim-time" style="visibility:hidden;">1:42</span>
+          <!-- hollow dot = timer off -->
+          <div style="width:7px;height:7px;border-radius:50%;border:1.5px solid #ccc;cursor:pointer;flex-shrink:0;" title="tap to show"></div>
+        </div>
+      </div>
+      <div class="card-note">A small filled dot (using accent color) = timer on. Empty/outline dot = timer off. Minimal, decorative-feeling, but requires discovery — the pip's purpose isn't instantly obvious without trying it. Could add a tooltip on hover.</div>
+    </div>
+
+  </div><!-- /grid -->
+</div><!-- /§D -->
+
+<!-- Footer -->
+<div style="border-top:1.5px solid #bbb; padding-top:20px; font-size:0.72rem; color:#888; line-height:1.9;">
+  <strong style="color:#333;">Decisions needed from this file:</strong>
+  §A READY button style (α solid · β rainbow underline · γ plain black) ·
+  §C streak badge (A day-dots · B sparkle · C sun · D ×multiplier · E arc) ·
+  §D timer toggle (C-ref pill · E tap-timer · F eye · G pip)
+  <br>
+  §B confirmed letter states (berry active + transparent-pink solved) is proposed — flag if something looks wrong.
+</div>
+
+</body>
+</html>
