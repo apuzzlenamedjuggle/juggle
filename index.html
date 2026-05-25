@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juggle</title>
+  <meta name="description" content="Juggle — the daily word puzzle. Unscramble five connected words to reveal the hidden theme." />
+  <meta property="og:title" content="Juggle" />
+  <meta property="og:description" content="A daily word puzzle. Unscramble five connected words to find the hidden theme." />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Juggle" />
+  <meta name="twitter:description" content="A daily word puzzle. Unscramble five connected words to find the hidden theme." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" id="favicon" href="data:,">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Pre-game overlay ──────────────────────────────────────────────────── -->
+  <div id="pregame">
+    <div id="pregame-card">
+      <div id="pregame-brand"><span class="logo-l" data-li="0">J</span><span class="logo-l" data-li="1">U</span><span class="logo-l" data-li="2">G</span><span class="logo-l" data-li="3">G</span><span class="logo-l" data-li="4">L</span><span class="logo-circle logo-l" data-li="5">E</span></div>
+
+      <div id="theme-module">
+        <div class="theme-eyebrow">Today's Theme</div>
+        <div id="theme-title"></div>
+      </div>
+
+      <div id="pregame-date"></div>
+
+      <div id="pregame-toggles">
+        <label class="toggle-row" for="hard-check">
+          <div class="mode-text">
+            <span class="mode-name">Hard Mode</span>
+            <span class="mode-desc">Solve one word at a time</span>
+          </div>
+          <div class="toggle-track">
+            <input type="checkbox" id="hard-check" />
+            <span class="toggle-thumb"></span>
+          </div>
+        </label>
+        <label class="toggle-row" for="timer-hide-check">
+          <div class="mode-text">
+            <span class="mode-name">Hide Timer</span>
+            <span class="mode-desc">Play without seeing elapsed time</span>
+          </div>
+          <div class="toggle-track">
+            <input type="checkbox" id="timer-hide-check" />
+            <span class="toggle-thumb"></span>
+          </div>
+        </label>
+      </div>
+
+      <button id="ready-btn">READY</button>
+      <button id="how-btn-pre" class="ghost-btn">How to play</button>
+    </div>
+  </div>
+
+  <!-- ── How to play modal ─────────────────────────────────────────────────── -->
+  <div id="how-modal" class="modal">
+    <div class="modal-backdrop" id="how-backdrop"></div>
+    <div class="modal-card">
+      <button class="modal-close" id="how-close">✕</button>
+
+      <div class="how-title">
+        <span>HOW TO PLAY</span>
+        <span class="how-title-logo"><span class="logo-l" data-li="0">J</span><span class="logo-l" data-li="1">U</span><span class="logo-l" data-li="2">G</span><span class="logo-l" data-li="3">G</span><span class="logo-l" data-li="4">L</span><span class="logo-circle logo-l" data-li="5">E</span></span>
+      </div>
+
+      <div class="how-body">
+        <p>Unscramble five six-letter words connected to today's theme. Circled spaces reveal letters for one final answer. You have unlimited guesses.</p>
+
+        <div class="how-example">
+          <div class="how-example-prompt">L · P · P · U · R · E</div>
+          <div class="how-example-slots">
+            <div class="how-slot"></div>
+            <div class="how-slot how-slot-circled"></div>
+            <div class="how-slot"></div>
+            <div class="how-slot"></div>
+            <div class="how-slot"></div>
+            <div class="how-slot"></div>
+          </div>
+          <p class="how-example-caption">Circled letters are used for the final word.</p>
+        </div>
+      </div>
+
+      <button id="how-continue" class="continue-btn">Continue</button>
+    </div>
+  </div>
+
+  <!-- ── Achievements modal ───────────────────────────────────────────────── -->
+  <div id="achievements-modal" class="modal">
+    <div class="modal-backdrop" id="ach-backdrop"></div>
+    <div class="modal-card">
+      <button class="modal-close" id="ach-close">✕</button>
+      <div class="how-title">ACHIEVEMENTS</div>
+      <div id="ach-count"></div>
+      <div id="achievements-grid"></div>
+      <div id="ach-note">Check back later for new achievements to unlock</div>
+    </div>
+  </div>
+
+  <!-- ── Main game ─────────────────────────────────────────────────────────── -->
+  <div id="app">
+
+    <header>
+      <div id="header-top">
+        <div id="header-left">
+          <button id="how-btn-game" class="icon-btn" aria-label="How to Play">?</button>
+          <div id="streak-badge" class="hidden" data-tooltip="Come back tomorrow to continue the streak"></div>
+        </div>
+        <h1 id="logo"><span class="logo-l" data-li="0">J</span><span class="logo-l" data-li="1">U</span><span class="logo-l" data-li="2">G</span><span class="logo-l" data-li="3">G</span><span class="logo-l" data-li="4">L</span><span class="logo-circle logo-l" data-li="5">E</span></h1>
+        <div id="timer-wrap">
+          <span id="timer-display" data-tooltip="Hide timer">0:00</span>
+          <button id="achievements-btn" class="icon-btn" aria-label="Achievements">★</button>
+        </div>
+      </div>
+      <div id="meta">
+        <span id="theme-label"></span>
+        <span id="date-label"></span>
+      </div>
+    </header>
+
+    <div id="board"></div>
+
+    <div id="bank-area">
+      <div id="bank"></div>
+      <button id="submit-btn">ENTER</button>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <script src="game.js"></script>
+  <script src="wordlist.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
