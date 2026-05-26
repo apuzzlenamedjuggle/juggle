@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: 1200px;
+  height: 630px;
+  overflow: hidden;
+  background: #FEFCF3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  font-family: 'Figtree', sans-serif;
+  font-size: 148px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  /* Cancel trailing letter-spacing so flex centering is accurate */
+  margin-right: -0.16em;
+}
+
+.logo-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2em;
+  height: 1.2em;
+  border: 9px solid #111;
+  border-radius: 50%;
+  flex-shrink: 0;
+  line-height: 1;
+  letter-spacing: 0;
+  margin-left: -0.05em;
+}
+
+.divider {
+  width: 48px;
+  height: 2.5px;
+  background: #D4CFC7;
+  border-radius: 2px;
+  margin-top: 60px;
+  margin-bottom: 26px;
+}
+
+.tagline {
+  font-family: 'Figtree', sans-serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: #AFAFAF;
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+  <div class="logo">
+    <span style="color:#F4A0BC">J</span><span style="color:#A4C0E8">U</span><span style="color:#F7B090">G</span><span style="color:#C4B0E8">G</span><span style="color:#F0DC8C">L</span><span class="logo-circle" style="color:#A8D4B4">E</span>
+  </div>
+  <div class="divider"></div>
+  <div class="tagline">A daily word puzzle</div>
+</body>
+</html>
