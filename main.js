@@ -838,12 +838,9 @@ function renderBank() {
     tile.textContent = ch;
 
     if (!cursorShown && ch === cursorLetter) {
-      // This tile is the one currently sitting at the cursor position.
       tile.classList.add('tile-at-cursor');
       cursorShown = true;
     } else if (renderedPlaced[ch] < placed) {
-      // This tile is placed at a non-cursor position (show dimmed, still clickable
-      // so player can "move" it).
       tile.classList.add('tile-placed');
       tile.addEventListener('click', () => placeTile(ch));
       renderedPlaced[ch]++;
@@ -939,7 +936,7 @@ function firstBlankSlot(ws) {
 function advanceCursor() {
   const ws = S.activeWord === 5 ? S.final : S.words[S.activeWord];
   let next = S.cursor + 1;
-  while (next < 6 && ws.confirmed[next]) next++;
+  while (next < 6 && (ws.confirmed[next] || ws.guess[next] !== null)) next++;
   if (next < 6) S.cursor = next;
 }
 
@@ -989,9 +986,16 @@ function onSlotClick(wordIdx, pos) {
   if (isHardLocked(wordIdx)) return;
 
   if (S.activeWord === wordIdx) {
-    S.cursor = pos;
-    renderSlots(wordIdx);
-    renderBank();
+    if (S.cursor === pos && ws.guess[pos] !== null && !ws.confirmed[pos]) {
+      ws.guess[pos] = null;
+      renderSlots(wordIdx);
+      renderBank();
+      saveState();
+    } else {
+      S.cursor = pos;
+      renderSlots(wordIdx);
+      renderBank();
+    }
   } else {
     selectWordAt(wordIdx, pos);
   }
@@ -1012,7 +1016,7 @@ function bindGlobalEvents() {
   document.getElementById('how-backdrop').addEventListener('click', closeHowModal);
   document.getElementById('how-continue').addEventListener('click', closeHowModal);
 
-  document.getElementById('achievements-btn').addEventListener('click', openAchievementsModal);
+  document.getElementById('achievements-btn').addEventListener('click', () => openAchievementsModal());
   document.getElementById('ach-close').addEventListener('click', closeAchievementsModal);
   document.getElementById('ach-backdrop').addEventListener('click', closeAchievementsModal);
 
