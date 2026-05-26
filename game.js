@@ -38,7 +38,6 @@
 const PUZZLE_ROWS = {
   "2026-05-26": {
     theme: "Around the House",
-    //         CLOSET[4]=E   FRIDGE[3]=D,[4]=G   CARPET[1]=A   PANTRY[2]=N   SHOWER[5]=R → GARDEN
     row:   "OYSTER*, MU*SSEL, TRENC*H*, MARLI*N, SPON*GE, URCHIN",
   },
   "2026-05-25": {

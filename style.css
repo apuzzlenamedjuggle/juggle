@@ -22,6 +22,7 @@
 
 html, body {
   height: 100%;
+  overflow: hidden;
   background: var(--bg);
   color: var(--black);
   font-family: 'Figtree', sans-serif;
@@ -449,7 +450,7 @@ header {
   padding: 5px 10px;
   border-radius: 6px;
   white-space: normal;
-  max-width: min(200px, calc(100vw - 40px));
+  max-width: min(240px, calc(100vw - 40px));
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.15s;
@@ -560,7 +561,7 @@ header {
 
 #board {
   flex: 1;
-  overflow-y: auto;
+  overflow: hidden;
   padding: clamp(10px, 2vh, 40px) 0 clamp(4px, 0.8vh, 12px);
 }
 
@@ -731,6 +732,24 @@ header {
 .tile-placed    { background: var(--bg); border-color: var(--grey-md); color: var(--grey-dk); }
 .tile-at-cursor { background: var(--grey-lt); border-color: var(--grey-lt); color: var(--grey-md); cursor: default; }
 .tile-blank     { background: var(--bg); border: 2px dashed var(--grey-md); color: var(--grey-dk); font-size: 0.9rem; }
+
+/* Shuffle button — sits at end of tile bank row */
+.shuffle-btn {
+  width: var(--tile-sz);
+  height: var(--tile-sz);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1.5px solid var(--grey-lt);
+  border-radius: var(--radius);
+  color: var(--grey-md);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.shuffle-btn:active { color: var(--grey-dk); border-color: var(--grey-md); }
 
 /* Post-solve decorative JUGGLE tiles */
 .tile-juggle {

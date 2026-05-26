@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#FEFCF3"/>
+
+  <!-- Subtle warm rule under content -->
+  <rect x="560" y="400" width="80" height="3" rx="1.5" fill="#E8E4DC"/>
+
+  <!-- J -->
+  <text x="325" y="315"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="130" font-weight="800" text-anchor="middle" fill="#F4A0BC">J</text>
+
+  <!-- U -->
+  <text x="436" y="315"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="130" font-weight="800" text-anchor="middle" fill="#A4C0E8">U</text>
+
+  <!-- G -->
+  <text x="547" y="315"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="130" font-weight="800" text-anchor="middle" fill="#F7B090">G</text>
+
+  <!-- G -->
+  <text x="658" y="315"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="130" font-weight="800" text-anchor="middle" fill="#C4B0E8">G</text>
+
+  <!-- L -->
+  <text x="764" y="315"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="130" font-weight="800" text-anchor="middle" fill="#F0DC8C">L</text>
+
+  <!-- Circle around E — drawn before the E so letter sits inside it -->
+  <circle cx="875" cy="255" r="80" fill="none" stroke="#111111" stroke-width="7"/>
+
+  <!-- E -->
+  <text x="875" y="315"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="130" font-weight="800" text-anchor="middle" fill="#A8D4B4">E</text>
+
+  <!-- Tagline -->
+  <text x="600" y="430"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="28" font-weight="500" text-anchor="middle" fill="#AAAAAA"
+    letter-spacing="3">A daily word puzzle</text>
+</svg>
